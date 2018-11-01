@@ -1,4 +1,11 @@
 .wrap-App{
   width:100%;
   height:100%;
+  background-color:#AFCFE6;
+  background-image: url('../public/imgs/back1.jpg');
+  background-size:100% 50%;
+  background-position: 100% 100%;
+  background-repeat: no-repeat;
+  border:1px solid transparent;
+  box-sizing: border-box;
 }

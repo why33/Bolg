@@ -1,17 +1,18 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './App.css';
-import svg from './App.svg'
+import CanvasB from '@comp/CanvasB.js'
+import Content from '@src/index/index'
 
-
-class App extends Component {
+class App extends React.Component {
   render() {
     return (
       <div  className='wrap-App'>
-           <img src={svg} alt="logo" width='300' height='300'/>
-           <img src={svg} alt=""  width='300' height='300'/>
+          
+           <CanvasB/>
+           <Content/>
       </div>
     );
   }
-}
+} 
 
 export default App;

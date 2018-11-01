@@ -1,15 +1,15 @@
 <svg width="580" height="400" xmlns="http://www.w3.org/2000/svg">
     <defs>
-        <linearGradient id="orange_red" x1="0%" y1="0%" x2="100%" y2="0%">
-        <stop offset="0%" style="stop-color:rgb(255,255,0);
-        stop-opacity:1"/>
-        <stop offset="100%" style="stop-color:rgb(255,0,0);
-        stop-opacity:1"/>
+        <linearGradient id="orange_red" x1="30%" y1="15%" x2="10%" y2="80%">
+           
+            <stop offset="45%" style="stop-color:rgb(0,102,255);
+            stop-opacity:1"/>
+             <stop offset="100%" style="stop-color:rgb(255,153,0);
+            stop-opacity:1"/>
         </linearGradient>
     </defs>
-    <g>
+    <g fill='url(#orange_red)'>
     <text stroke="#f00" transform="matrix(14.052047052996349,0,0,3.371942268385218,-3356.1285534311064,-510.61492414866586) " font-style="italic" font-weight="bold" xml:space="preserve" text-anchor="start" font-family="'Courier New', Courier, monospace" font-size="24" id="svg_2" y="220.27507" x="247.99103" stroke-width="0">N</text>
     <text stroke="#f00" transform="matrix(9.079350471496582,0,0,5.5,-1183.6248440742493,-832.5) " font-weight="bold" xml:space="preserve" text-anchor="start" font-family="'Palatino Linotype', 'Book Antiqua', Palatino, serif" font-size="24" id="svg_1" y="194.54545" x="138.68006" stroke-width="0">C</text>
-    
     </g>
 </svg>
