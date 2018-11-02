@@ -145,7 +145,6 @@ module.exports = {
       '@src':path.resolve(__dirname,'../src'),
       '@pub':path.resolve(__dirname,'../public'),
       '@comp':path.resolve(__dirname,'../src/components'),
-
     },
     plugins: [
       // Adds support for installing with Plug'n'Play, leading to faster installs and adding
@@ -187,7 +186,8 @@ module.exports = {
             loader: require.resolve('eslint-loader'),
           },
         ],
-        include: paths.appSrc,
+        // include:paths.appSrc,
+        exclude:paths.appNodeModules,
       },
       {
         // "oneOf" will traverse all following loaders until one will
@@ -209,7 +209,8 @@ module.exports = {
           // The preset includes JSX, Flow, and some ESnext features.
           {
             test: /\.(js|mjs|jsx)$/,
-            include: paths.appSrc,
+            // include: paths.appSrc,
+            exclude:paths.appNodeModules,
             loader: require.resolve('babel-loader'),
             options: {
               customize: require.resolve(
