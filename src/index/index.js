@@ -2,6 +2,7 @@ import React from 'react'
 import svg from '@src/App.svg'
 import styled from 'styled-components'
 import RectBack from '@comp/RectBack'
+import MusicControl from '@src/music/MusicControl'
 
 
 const Root=styled.div`
@@ -22,7 +23,7 @@ const Root=styled.div`
             height:240%;
             position:relative;
             top:-48%;
-            left:-15%;
+            left:-14%;
         }
         p{
             text-indent:1%;
@@ -52,20 +53,20 @@ export default class Content extends React.Component{
                     <div  className='logoSty'>
                         <img src={svg} alt="logo"/>
                     </div>
-                    <p>闲的啊啊啊啊啊啊啊</p>
+                    <p>.............</p>
                </header>
                <div className='mainSty'>
-                    <RectBack w={2} h={6} p={0} t='music'/>
-                    <RectBack w={5} h={3} p={0} t='article'/>
-                    <RectBack w={3} h={3} p={0} t='picture'/>
-                    <RectBack w={2} h={4} p={0} t='index'/>
-                    <RectBack w={5} h={7} p={-3} t='code'/>
-                    <RectBack w={3} h={4} p={-3} t='video'/>
-                    <RectBack w={3} h={3} p={-6} t='intro'/>
-
-
+                    <RectBack w={2} h={6} p={0} t='music' icon="faMusic"/>
+                    <RectBack w={5} h={3} p={0} t='article' icon="faArticle"/>
+                    <RectBack w={3} h={3} p={0} t='picture' icon="faPhoto"/>
+                    <RectBack w={2} h={4} p={0} t='index' icon="faHome"/>
+                    <RectBack w={5} h={7} p={-3} t='code' icon="faCode"/>
+                    <RectBack w={3} h={4} p={-3} t='video' icon="faFilm"/>
+                    <RectBack w={3} h={3} p={-6} t='intro' icon="faAddressCard"/>
                </div>
+               <MusicControl />
            </Root>
+
         )
     }
 

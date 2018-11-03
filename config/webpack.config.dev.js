@@ -145,6 +145,7 @@ module.exports = {
       '@src':path.resolve(__dirname,'../src'),
       '@pub':path.resolve(__dirname,'../public'),
       '@comp':path.resolve(__dirname,'../src/components'),
+      '@type':path.resolve(__dirname,'../src/utils/R.js')
     },
     plugins: [
       // Adds support for installing with Plug'n'Play, leading to faster installs and adding
