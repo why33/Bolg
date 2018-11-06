@@ -2,14 +2,16 @@ import React from 'react'
 import styled from 'styled-components'
 import { FontAwesomeIcon as Icon} from '@fortawesome/react-fontawesome'
 import {IconT} from '@type'
+import '@src/music/music.css'
+import { ToolTip } from '@cncomp'
 
 const Root=styled.div`
     position:fixed;
     width:100%;
-    height:10vh;
+    height:8vh;
     background:rgba(204,255,255,.3);
     left:0;
-    bottom:0;
+   
     .lockSty{
         position:absolute;
         top:-3vh;
@@ -31,7 +33,7 @@ const Root=styled.div`
     }
     .controlSty{
         width:90%;
-        height:80%;
+        height:100%;
         margin:0 auto;
         display:flex;
         svg{
@@ -56,7 +58,6 @@ const Root=styled.div`
             box-sizing:border-box;
             padding:0 10px;
             color:#ffff;
-           
             p{
                 display:block;
                 width:100%;
@@ -129,35 +130,47 @@ export default class MusicControl extends React.Component{
     isLockFun=()=>{
         this.setState({
             isLock:!this.state.isLock
+        },()=>{
+           
         })
+    }
+    onMouseenter=(e)=>{
+        e.stopPropagation();
+        this.div.classList.replace('hide',"show");
+    }
+    onMouseleave=(e)=>{
+        e.stopPropagation();
+        !this.state.isLock && this.div.classList.replace('show',"hide");
+       
     }
     render(){
         return (
-            <Root>
+           
+            <Root className='show' onMouseEnter={this.onMouseenter} onMouseLeave={this.onMouseleave} ref={div=>this.div=div}>
                 <div className='lockSty'>
                     <Icon  icon={this.state.isLock?IconT.faLock:IconT.faLockOpen} onClick={this.isLockFun}/>
                 </div>
                 <div className='controlSty'>
                     <div className='control_play'>
-                        <Icon icon={IconT.faBackward}/>
-                        <Icon icon={this.state.isPlay?IconT.faPause:IconT.faPlay} onClick={this.isPlayFun}/>
-                        <Icon icon={IconT.faForward}/>
+                        <ToolTip title="上一首" direction='left'><Icon icon={IconT.faBackward}/></ToolTip>
+                        <ToolTip title={this.state.isPlay?"播放":"暂停"} direction='top'><Icon icon={this.state.isPlay?IconT.faPause:IconT.faPlay} onClick={this.isPlayFun}/></ToolTip>
+                        <ToolTip title="下一首" direction='right'><Icon icon={IconT.faForward}/></ToolTip>
                     </div>
                     <div className='control_range'>
                         <p>xxxx</p>
                         <div>
-                            
                             <span className="control_progress"></span> 
                             <span className="control_timeStart">00.00</span>
                             <span className="control_timeEnd">06.00</span>
                         </div>
                     </div>
                     <div className='control_but'>
-                        <Icon icon={IconT.faStop}/>
-                        <Icon icon={this.state.isRepeat?IconT.faRepeat:IconT.faRandom} onClick={this.isRepeatFun}/>
-                        <span>词</span>
-                        <Icon icon={this.state.isVolume?IconT.faVolume:IconT.faVolumeOff} onClick={this.isVolumeFun}/>
-                        <Icon icon={IconT.faList}/>
+                        <ToolTip title="停止" direction='top'><Icon icon={IconT.faStop}/></ToolTip>
+                        <ToolTip title={this.state.isRepeat?"循环播放":"随机播放"} direction='bottom'><Icon icon={this.state.isRepeat?IconT.faRepeat:IconT.faRandom} onClick={this.isRepeatFun}/></ToolTip>
+                        <ToolTip title="歌词" direction='top'><span>词</span></ToolTip>
+                        <ToolTip title="音量" direction='bottom'><Icon icon={this.state.isVolume?IconT.faVolume:IconT.faVolumeOff} onClick={this.isVolumeFun}/></ToolTip>
+                        <ToolTip title="播放列表" direction='bottom'><Icon icon={IconT.faList}/></ToolTip>
+                        
                     </div>
                 </div>
             </Root>

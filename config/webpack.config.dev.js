@@ -145,6 +145,7 @@ module.exports = {
       '@src':path.resolve(__dirname,'../src'),
       '@pub':path.resolve(__dirname,'../public'),
       '@comp':path.resolve(__dirname,'../src/components'),
+      '@cncomp':path.resolve(__dirname,'../src/components/Cncomp.js'),
       '@type':path.resolve(__dirname,'../src/utils/R.js')
     },
     plugins: [

@@ -1,0 +1,78 @@
+.show{
+    bottom: 0;
+    animation:showUp .6s ease;
+    -webkit-animation:showUp .6s ease;
+    -o-animation: showUp .6s ease;
+    -moz-animation: showUp .6s ease;
+}
+.hide{
+    bottom: -7.8vh;
+    animation:hideDown .6s ease;
+    -webkit-animation:hideDown .6s ease;
+    -o-animation: hideDown .6s ease;
+    -moz-animation:hideDown .6s ease;
+}
+@keyframes showUp {
+    from {
+        bottom:-8vh;
+    }
+    to{
+        bottom: 0;
+    }
+}
+@-webkit-keyframes showUp{
+    from {
+        bottom:-8vh;
+    }
+    to{
+        bottom: 0;
+    }
+}
+@-moz-keyframes showUp{
+    from {
+        bottom:-8vh;
+    }
+    to{
+        bottom: 0;
+    }
+}
+@-o-keyframes showUp{
+    from {
+        bottom:-8vh;
+    }
+    to{
+        bottom: 0;
+    }
+}
+@keyframes hideDown {
+    from {
+        bottom:0;
+    }
+    to{
+        bottom:-7.8vh;
+    }
+}
+@-webkit-keyframes hideDown{
+    from {
+        bottom:0;
+    }
+    to{
+        bottom:-7.8vh;
+    }
+}
+@-moz-keyframes hideDown{
+    from {
+        bottom:0;
+    }
+    to{
+        bottom:-7.8vh;
+    }
+}
+@-o-keyframes hideDown{
+    from {
+        bottom:0;
+    }
+    to{
+        bottom:-7.8vh;
+    }
+}

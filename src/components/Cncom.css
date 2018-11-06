@@ -1,0 +1,96 @@
+/* -------------------------------------- */
+/* 文字提示 */
+.ToopTip{
+    position:relative;
+}
+.ToopTip-content span:hover,
+.ToopTip-content div:hover,
+.ToopTip-content svg:hover{
+   color:#333;
+}
+.ToopTip-title{
+    position:absolute;
+    background:#333333;
+    white-space: nowrap;
+    font-size: 10px;
+    padding:5px;
+    border-radius:10%;
+    color:#fff;
+}
+.toolTip-show>.toop{
+    display:block;
+}
+.toolTip-hide>.toop{
+    display: none;
+}
+.ToopTip-arrows-top{
+    position: absolute;
+    top:-5px;
+    left:10%;
+    width: 0;
+    height: 0;
+    font-size: 0;
+    border-width: 5px ;
+    border-style: solid;
+    border-color: #333333 transparent transparent  transparent;
+    overflow: hidden;
+    
+}
+.ToopTip-direction-top{
+    top:-30px;
+    left:-50%;
+}
+.ToopTip-arrows-left{
+    position: absolute;
+    top:8px;
+    left:-10px;
+    width: 0;
+    height: 0;
+    font-size: 0;
+    border-width: 5px ;
+    border-style: solid;
+    border-color: transparent transparent  transparent #333333;
+    overflow: hidden;
+}
+.ToopTip-direction-left{
+    top:0px;
+    left:0;
+    transform:translate( calc( -100% - 10px ),0);
+    -webkit-transform: translate( -webkit-calc( -100% - 10px ),0);
+    -moz-transform: translate( -moz-calc( -100% -10px ),0);
+}
+.ToopTip-arrows-right{
+    position: absolute;
+    top:8px;
+    right:-10px;
+    width: 0;
+    height: 0;
+    font-size: 0;
+    border-width: 5px ;
+    border-style: solid;
+    border-color: transparent #333333 transparent  transparent;
+    overflow: hidden;
+}
+.ToopTip-direction-right{
+    top:0;
+    right:0;
+    transform:translate( calc( 100% + 10px ),0);
+    -webkit-transform: translate( -webkit-calc( 100% + 10px ),0);
+    -moz-transform: translate( -moz-calc( 100% + 10px ),0);
+}
+.ToopTip-arrows-bottom{
+    position: absolute;
+    bottom:-5px;
+    left:10%;
+    width: 0;
+    height: 0;
+    font-size: 0;
+    border-width: 5px ;
+    border-style: solid;
+    border-color:  transparent transparent #333333 transparent;
+    overflow: hidden;
+}
+.ToopTip-direction-bottom{
+    bottom:-30px;
+    left:-50%;
+}
