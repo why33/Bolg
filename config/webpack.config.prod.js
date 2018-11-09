@@ -219,12 +219,16 @@ module.exports = {
         '@pub':path.resolve(__dirname,'../public'),
         '@comp':path.resolve(__dirname,'../src/components'),
         '@cncomp':path.resolve(__dirname,'../src/components/Cncomp.js'),
-        '@type':path.resolve(__dirname,'../src/utils/R.js')
+        '@type':path.resolve(__dirname,'../src/utils/R.js'),
+        '@connect':path.resolve(__dirname,'../src/redux/Connect.js')
+        
     },
     plugins: [
       // Adds support for installing with Plug'n'Play, leading to faster installs and adding
       // guards against forgotten dependencies and such.
       PnpWebpackPlugin,
+      require.resolve('babel-plugin-transform-decorators-legacy')
+
       // Prevents users from importing files from outside of src/ (or node_modules/).
       // This often causes confusion because we only process files within src/ with babel.
       // To fix this, we prevent you from importing files out of src/ -- if you'd like to,

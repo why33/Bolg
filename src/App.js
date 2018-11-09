@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import CanvasB from '@comp/CanvasB.js'
-import Content from '@src/index/index'
+import Content from '@src/modules/index/index'
 
 class App extends React.Component {
   render() {

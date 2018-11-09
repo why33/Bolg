@@ -1,9 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FontAwesomeIcon as Icon} from '@fortawesome/react-fontawesome'
-import {IconT} from '@type'
-import '@src/music/music.css'
+import {IconT,MusicJson} from '@type'
+import '@src/modules/music/music.css'
 import { ToolTip } from '@cncomp'
+import axios from 'axios'
 
 const Root=styled.div`
     position:fixed;
@@ -11,7 +12,6 @@ const Root=styled.div`
     height:8vh;
     background:rgba(204,255,255,.3);
     left:0;
-   
     .lockSty{
         position:absolute;
         top:-3vh;
@@ -143,10 +143,19 @@ export default class MusicControl extends React.Component{
         !this.state.isLock && this.div.classList.replace('show',"hide");
        
     }
+    componentDidMount(){
+        axios.get(`${MusicJson[0]}`)
+            .then(data=>{
+                let index=data.data.indexOf("(");
+                let newMusicObj=JSON.parse(data.data.slice(index+1,-2));
+                console.log(newMusicObj)
+            })
+    }
     render(){
         return (
-           
-            <Root className='show' onMouseEnter={this.onMouseenter} onMouseLeave={this.onMouseleave} ref={div=>this.div=div}>
+            <Root className='hide' onMouseEnter={this.onMouseenter} onMouseLeave={this.onMouseleave} ref={div=>this.div=div}>
+                    {/* <audio  controls="controls" src="https://m128.xiami.net/158/7158/2104115374/1806311763_1539742986573.mp3?auth_key=1542164400-0-0-d55611c6e23d138b142f41fbc57b01a6">该浏览器不支持</audio> */}
+               
                 <div className='lockSty'>
                     <Icon  icon={this.state.isLock?IconT.faLock:IconT.faLockOpen} onClick={this.isLockFun}/>
                 </div>
@@ -168,7 +177,7 @@ export default class MusicControl extends React.Component{
                         <ToolTip title="停止" direction='top'><Icon icon={IconT.faStop}/></ToolTip>
                         <ToolTip title={this.state.isRepeat?"循环播放":"随机播放"} direction='bottom'><Icon icon={this.state.isRepeat?IconT.faRepeat:IconT.faRandom} onClick={this.isRepeatFun}/></ToolTip>
                         <ToolTip title="歌词" direction='top'><span>词</span></ToolTip>
-                        <ToolTip title="音量" direction='bottom'><Icon icon={this.state.isVolume?IconT.faVolume:IconT.faVolumeOff} onClick={this.isVolumeFun}/></ToolTip>
+                        <ToolTip title="音量" direction='right'><Icon icon={this.state.isVolume?IconT.faVolume:IconT.faVolumeOff} onClick={this.isVolumeFun}/></ToolTip>
                         <ToolTip title="播放列表" direction='bottom'><Icon icon={IconT.faList}/></ToolTip>
                         
                     </div>

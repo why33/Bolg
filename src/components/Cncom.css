@@ -2,6 +2,7 @@
 /* 文字提示 */
 .ToopTip{
     position:relative;
+   
 }
 .ToopTip-content span:hover,
 .ToopTip-content div:hover,
@@ -16,6 +17,7 @@
     padding:5px;
     border-radius:10%;
     color:#fff;
+    z-index:1;
 }
 .toolTip-show>.toop{
     display:block;

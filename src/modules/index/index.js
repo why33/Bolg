@@ -2,7 +2,8 @@ import React from 'react'
 import svg from '@src/App.svg'
 import styled from 'styled-components'
 import RectBack from '@comp/RectBack'
-import MusicControl from '@src/music/MusicControl'
+import MusicControl from '@src/modules/music/MusicControl'
+import connect from '@connect'
 
 
 const Root=styled.div`
@@ -45,8 +46,11 @@ const Root=styled.div`
 
 
 `
-export default class Content extends React.Component{
+
+ @connect('index') class Content extends React.Component{
+    componentDidMount(){ }
     render(){
+        console.log(this.props)
         return (
            <Root>
                <header>
@@ -71,3 +75,4 @@ export default class Content extends React.Component{
     }
 
 }
+export default Content;
