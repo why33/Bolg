@@ -3,8 +3,9 @@ import styled from 'styled-components'
 import { FontAwesomeIcon as Icon} from '@fortawesome/react-fontawesome'
 import {IconT,MusicJson} from '@type'
 import '@src/modules/music/music.css'
-import { ToolTip } from '@cncomp'
+import { ToolTip,PromptBox,Range } from '@cncomp'
 import axios from 'axios'
+import connect from '@connect'
 
 const Root=styled.div`
     position:fixed;
@@ -61,7 +62,7 @@ const Root=styled.div`
             p{
                 display:block;
                 width:100%;
-                font-size:2vh;
+                font-size:1.5vh;
                 line-height:3.5vh;
                 font-weight:bold;
                 text-shadow:0 0 1px #000;
@@ -77,6 +78,12 @@ const Root=styled.div`
                     height:3px;
                     background:#c0c0c0;
                     margin-bottom:0.2vh;
+                    span{
+                        display:block;
+                        width:0;
+                        height:100%;
+                        background:#fff;
+                    }
                }
                .control_timeStart,
                .control_timeEnd{
@@ -101,20 +108,25 @@ const Root=styled.div`
     
 
 `
-
-export default class MusicControl extends React.Component{
+@connect('music') 
+class MusicControl extends React.Component{
     constructor(props){
         super(props);
         this.state={
-            isPlay:true,
+            isPlay:false,
             isRepeat:true,
             isVolume:true,
-            isLock:false
+            isLock:false,
+            duration:null,//当前音频长度
+            currentTime:'00:00',//当前播放的位置,
+            value:'0%'
         }
     }
     isPlayFun=()=>{
+        this.state.isPlay ? this.audio.pause():this.audio.play();
         this.setState({
-            isPlay:!this.state.isPlay
+            isPlay:!this.state.isPlay,
+            currentTime:(this.audio.currentTime/60).toFixed(2)
         })
     }
     isRepeatFun=()=>{
@@ -140,21 +152,37 @@ export default class MusicControl extends React.Component{
     }
     onMouseleave=(e)=>{
         e.stopPropagation();
-        !this.state.isLock && this.div.classList.replace('show',"hide");
+        // !this.state.isLock && this.div.classList.replace('show',"hide");
        
     }
     componentDidMount(){
-        axios.get(`${MusicJson[0]}`)
-            .then(data=>{
-                let index=data.data.indexOf("(");
-                let newMusicObj=JSON.parse(data.data.slice(index+1,-2));
-                console.log(newMusicObj)
-            })
+        setTimeout(()=>{
+            this.props.selectMusicFun(1);
+            this.audio.load();
+            this.audio.oncanplay=()=>{
+                let TimeEnd=this.audio.duration/60;
+                let timeE=String(TimeEnd).split('.');
+                this.setState({
+                    duration:`${(10-timeE[0])?('0'+timeE[0]):timeE[0]}:${timeE[1].slice(0,2)}`
+                })
+            }
+            this.audio.ontimeupdate=()=>{
+                let TimePlay=this.audio.currentTime/60;
+                let TimeP=String(TimePlay).split('.');
+                this.setState({
+                    currentTime:`${(10-TimeP[0])?('0'+TimeP[0]):TimeP[0]}:${TimeP[1]?TimeP[1].slice(0,2):'00'}`,
+                    value:(this.audio.currentTime/this.audio.duration*100).toFixed(2)+"%"
+                })
+            
+            }
+        },100)
+        
     }
     render(){
+        const {selectedMusic}=this.props;
         return (
-            <Root className='hide' onMouseEnter={this.onMouseenter} onMouseLeave={this.onMouseleave} ref={div=>this.div=div}>
-                    {/* <audio  controls="controls" src="https://m128.xiami.net/158/7158/2104115374/1806311763_1539742986573.mp3?auth_key=1542164400-0-0-d55611c6e23d138b142f41fbc57b01a6">该浏览器不支持</audio> */}
+            <Root className='show' onMouseEnter={this.onMouseenter} onMouseLeave={this.onMouseleave} ref={div=>this.div=div}>
+                <audio ref={audio=>this.audio=audio} src={selectedMusic.play_url}>该浏览器不支持</audio>
                
                 <div className='lockSty'>
                     <Icon  icon={this.state.isLock?IconT.faLock:IconT.faLockOpen} onClick={this.isLockFun}/>
@@ -166,19 +194,24 @@ export default class MusicControl extends React.Component{
                         <ToolTip title="下一首" direction='right'><Icon icon={IconT.faForward}/></ToolTip>
                     </div>
                     <div className='control_range'>
-                        <p>xxxx</p>
+                        <p>{selectedMusic.audio_name}</p>
                         <div>
-                            <span className="control_progress"></span> 
-                            <span className="control_timeStart">00.00</span>
-                            <span className="control_timeEnd">06.00</span>
+                            <span className="control_progress">
+                               <span style={{width:this.state.value}}></span>
+                            </span> 
+                            <span className="control_timeStart">{this.state.currentTime}</span>
+                            <span className="control_timeEnd">{this.state.duration}</span>
                         </div>
                     </div>
                     <div className='control_but'>
                         <ToolTip title="停止" direction='top'><Icon icon={IconT.faStop}/></ToolTip>
                         <ToolTip title={this.state.isRepeat?"循环播放":"随机播放"} direction='bottom'><Icon icon={this.state.isRepeat?IconT.faRepeat:IconT.faRandom} onClick={this.isRepeatFun}/></ToolTip>
                         <ToolTip title="歌词" direction='top'><span>词</span></ToolTip>
-                        <ToolTip title="音量" direction='right'><Icon icon={this.state.isVolume?IconT.faVolume:IconT.faVolumeOff} onClick={this.isVolumeFun}/></ToolTip>
+                        <PromptBox title='播放列表'  content={<Range value="0.3" />}>
+                            <ToolTip title="音量"><Icon icon={this.state.isVolume?IconT.faVolume:IconT.faVolumeOff} onClick={this.isVolumeFun}/></ToolTip>
+                        </PromptBox>
                         <ToolTip title="播放列表" direction='bottom'><Icon icon={IconT.faList}/></ToolTip>
+                       
                         
                     </div>
                 </div>
@@ -186,3 +219,4 @@ export default class MusicControl extends React.Component{
         )
     }
 }
+export default MusicControl;

@@ -46,9 +46,11 @@ const Root=styled.div`
 
 
 `
-
- @connect('index') class Content extends React.Component{
-    componentDidMount(){ }
+@connect('index','music') 
+class Content extends React.Component{
+    componentWillMount(){ 
+        this.props.loadMusicFun();
+    }
     render(){
         console.log(this.props)
         return (
@@ -68,7 +70,7 @@ const Root=styled.div`
                     <RectBack w={3} h={4} p={-3} t='video' icon="faFilm"/>
                     <RectBack w={3} h={3} p={-6} t='intro' icon="faAddressCard"/>
                </div>
-               <MusicControl />
+               <MusicControl/>
            </Root>
 
         )
