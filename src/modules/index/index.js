@@ -52,7 +52,6 @@ class Content extends React.Component{
         this.props.loadMusicFun();
     }
     render(){
-        console.log(this.props)
         return (
            <Root>
                <header>
