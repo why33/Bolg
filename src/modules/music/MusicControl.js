@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { FontAwesomeIcon as Icon} from '@fortawesome/react-fontawesome'
 import {IconT,MusicJson} from '@type'
 import '@src/modules/music/music.css'
-import { ToolTip,PromptBox,Range,DrawerBox } from '@cncomp'
+import { ToolTip,PromptBox,Range,DrawerBox,Table } from '@cncomp'
 import axios from 'axios'
 import connect from '@connect'
 
@@ -140,7 +140,9 @@ class MusicControl extends React.Component{
             currentTime:'00:00',//当前播放的位置,
             value:'0%',
             number:0,
-            volumeValue:0.3
+            volumeValue:0.3,
+            isListShow:false,//播放列表是否显示
+
         }
     }
     isPlayFun=()=>{
@@ -236,9 +238,9 @@ class MusicControl extends React.Component{
         }
     }
     listBoxFun=()=>{
-        // Drawer.show({
-
-        // })
+        this.setState({
+            isListShow:!this.state.isListShow
+        })
     }
     clickRangeFun=(e)=>{
         e.stopPropagation();
@@ -269,11 +271,34 @@ class MusicControl extends React.Component{
             this.audio.volume=this.state.volumeValue;
         })
     }
+    onClickList=()=>{
+        this.setState({
+            isListShow:false
+        })
+    }
     render(){
-        const {selectedMusic}=this.props;
+        const {selectedMusic,musicAll}=this.props;
+        const heardData=[{
+                key:'name',
+                title:'歌曲',
+                width:'50%'
+            },{
+                key:'author',
+                title:'歌手',
+                width:'30%'
+            }
+        ];
+        let data=[];
+        musicAll && musicAll.map((item,index)=>{
+            data.push({
+                name:item.song_name,
+                author:item.author_name,
+            })
+        })
+       
         return (
             <Root className='show' onMouseEnter={this.onMouseenter} onMouseLeave={this.onMouseleave} ref={div=>this.div=div}>
-                <audio ref={audio=>this.audio=audio} src={selectedMusic.play_url}>该浏览器不支持</audio>
+                <audio ref={audio=>this.audio=audio} src={selectedMusic && selectedMusic.play_url}>该浏览器不支持</audio>
                 <div className='lockSty'>
                     <Icon  icon={this.state.isLock?IconT.faLock:IconT.faLockOpen} onClick={this.isLockFun}/>
                 </div>
@@ -284,7 +309,7 @@ class MusicControl extends React.Component{
                         <ToolTip title="下一首" direction='right'><Icon icon={IconT.faForward} onClick={this.isForwardFun}/></ToolTip>
                     </div>
                     <div className='control_range'>
-                        <p>{selectedMusic.audio_name}</p>
+                        <p>{selectedMusic && selectedMusic.audio_name}</p>
                         <div>
                             <span className="control_progress" onClick={this.clickRangeFun} ref={range=>this.range=range}>
                                <span style={{width:this.state.value}}></span>
@@ -297,9 +322,9 @@ class MusicControl extends React.Component{
                         <ToolTip title="停止" direction='top'><Icon icon={IconT.faStop} onClick={this.stopFun}/></ToolTip>
                         <ToolTip title={this.state.isRepeat?"循环播放":"随机播放"} direction='bottom'><Icon icon={this.state.isRepeat?IconT.faRepeat:IconT.faRandom} onClick={this.isRepeatFun}/></ToolTip>
                         <PromptBox title='音量'  visible={this.state.isVolumeShow} content={<Range value={this.state.volumeValue} onClick={this.volumeFun}/>}>
-                            <ToolTip title="音量"><span className={`${this.state.volumeValue===0?'muted':''}`}><Icon icon={IconT.faVolume} onClick={this.isVolumeFun} /></span></ToolTip>
+                            <ToolTip title="音量"><span className={`${Number(this.state.volumeValue)===0?'muted':''}`}><Icon icon={IconT.faVolume} onClick={this.isVolumeFun} /></span></ToolTip>
                         </PromptBox>
-                        <DrawerBox>
+                        <DrawerBox content={<Table heardData={heardData} selectedNum={this.state.number} data={data} buttons={[<Icon icon={IconT.faPlay} onClick={this.isPlayFun}/>,<Icon icon={IconT.faStop} onClick={this.stopFun}/>,<Icon icon={IconT.faDownload}/>]}/>} title={`播放列表 （${this.props.musicAll.length}）`} width='60%' position={{bottom:'8vh',left:'20%'}} visible={this.state.isListShow} onClose={this.onClickList}>
                             <ToolTip title="播放列表" direction='bottom'><Icon icon={IconT.faList} onClick={this.listBoxFun}/></ToolTip>
                         </DrawerBox>
                         

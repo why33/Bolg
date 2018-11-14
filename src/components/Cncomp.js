@@ -94,25 +94,80 @@ class Range extends React.Component{
 }
 /**
  * 抽屉
- * width:抽屉宽度
- * height:抽屉高度
- * align:抽屉位置，值:left | center(默认) | right
- * distance:距离边框的距离
- * position：抽屉的位置
+ * titile:标签名
+ * width:抽屉的宽度，默认为100%,
+ * position：抽屉的位置(obj)，key值：top|right|bottom|left,默认：{bottom:0,right:0}
  * content：抽屉的内容
  * onClose：抽屉关闭或取消时，调用的函数
  */
 class DrawerBox extends React.Component{
-    constructor(props){
-        super(props);
+    onClose=()=>{
+       this.props.onClose();
     }
     render(){
+        const {position,title,width,visible}=this.props;
+        let styleObj=Object.assign({},(position || {bottom:0,right:0}),{width:width||'100%'});
         return (
             <div className="DrawerBox">
                 {this.props.children}
-                <div className="DrawerBox-cont">sssss</div>
+                <div className="DrawerBox-cont" style={styleObj} hidden={!visible|| false}>
+                    <header>
+                        <div className='DrawerBox-con-header'>
+                            {title}<span onClick={this.onClose}>&#215;</span>
+                        </div>
+                    </header>
+                   {this.props.content}
+                </div>
             </div>
         )
     }
 }
-export {ToolTip,PromptBox,Range,DrawerBox}
+/**
+ * 表格
+ * heardData:表头对象(arr-obj),必须，格式:[{ key:'name',title:'name',width:'20%'}] key属性必须要,width设置宽度
+ * data:数据(array-obj),必须[{value:value...}]
+ * buttons:按钮集合[],图标组件的集合,
+ * selectedNum:默认选中行的索引，从0开始
+ */
+class Table extends React.Component{
+    render(){
+        const {heardData,data,buttons,selectedNum}=this.props;
+        return (
+            <div className='Table'>
+                <table border={0}>
+                    <thead  className='Table-thead'>
+                        <tr align='left'>
+                            {heardData.map(item=>(<th key={item.title} width={item.width||'auto'}>{item.title}</th>))}
+                        </tr>
+                    </thead>
+                    <tbody>
+                            {data.map((item,index)=>{
+                               let arr=[];
+                               heardData.map((item1,index1)=>{
+                                   arr.push(<td key={index+"-"+index1}>{item[item1.key]}</td>)
+                               })
+                               return (
+                                   <tr key={item.name+"-"+index} className={`Table-body ${selectedNum===index && 'Table-selected'}`}>
+                                     {arr}
+                                     {buttons && (<td className="Table-buttons">
+                                       {
+                                        buttons.map((item,index)=>(
+                                            <span key={index}>{item}</span>
+                                        ))
+                                        }
+                                        </td>)
+                                    }
+                                   </tr>
+                               )
+                            })}
+                    </tbody>
+                   
+                   
+                </table>
+
+
+            </div>
+        )
+    }
+}
+export {ToolTip,PromptBox,Range,DrawerBox,Table}
