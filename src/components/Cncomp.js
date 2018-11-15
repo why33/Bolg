@@ -1,6 +1,6 @@
 import React from 'react'
 import "@comp/Cncom.css"
-import { withTheme } from 'styled-components';
+
 /**
  * 文字提示(组件包裹型)
  * title:提示文字(必填)
@@ -126,34 +126,54 @@ class DrawerBox extends React.Component{
  * 表格
  * heardData:表头对象(arr-obj),必须，格式:[{ key:'name',title:'name',width:'20%'}] key属性必须要,width设置宽度
  * data:数据(array-obj),必须[{value:value...}]
- * buttons:按钮集合[],图标组件的集合,
+ * buttons:按钮集合[],图标组件的集合,图标组件中属性onClick代表点击事件,图标组件的参数为表格中的tr的索引，从0开始
  * selectedNum:默认选中行的索引，从0开始
  */
 class Table extends React.Component{
+    componentDidMount(){
+        this.table.addEventListener('scroll',this.scrollFun)
+    }
+    scrollFun=()=>{
+        this.head.style.transform=`translateY(${this.table.scrollTop}px` ;
+        this.head.style.position='ansolute';  
+        this.head.style.zIndex='1000';
+    }
+
+    buttonClick=(index,fun,e)=>{
+        e.stopPropagation();
+        //fun(index);
+    }
+    clickButFun=(index,fun)=>{
+        fun(index)
+    }
     render(){
         const {heardData,data,buttons,selectedNum}=this.props;
         return (
-            <div className='Table'>
-                <table border={0}>
-                    <thead  className='Table-thead'>
+            <div className='Table' ref={table=>this.table=table}>
+                <table border={0} >
+                    <thead  className='Table-thead' ref={head=>this.head=head}>
                         <tr align='left'>
                             {heardData.map(item=>(<th key={item.title} width={item.width||'auto'}>{item.title}</th>))}
+                            {buttons && <th></th>}
                         </tr>
                     </thead>
                     <tbody>
                             {data.map((item,index)=>{
                                let arr=[];
-                               heardData.map((item1,index1)=>{
-                                   arr.push(<td key={index+"-"+index1}>{item[item1.key]}</td>)
+                               arr=heardData.map((item1,index1)=>{
+                                   return (<td key={index+"-"+index1}>{item[item1.key]}</td>)
+                                   
                                })
                                return (
                                    <tr key={item.name+"-"+index} className={`Table-body ${selectedNum===index && 'Table-selected'}`}>
                                      {arr}
                                      {buttons && (<td className="Table-buttons">
                                        {
-                                        buttons.map((item,index)=>(
-                                            <span key={index}>{item}</span>
-                                        ))
+                                        buttons.map((item2,index2)=>{
+                                            return (<span key={index2} onClick={this.clickButFun.bind(this,index,item2.props.onClick)}>{item2}</span>)
+                                        }
+                                           
+                                        )
                                         }
                                         </td>)
                                     }

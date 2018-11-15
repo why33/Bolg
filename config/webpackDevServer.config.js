@@ -87,7 +87,11 @@ module.exports = function(proxy, allowedHost) {
         target:"http://wwwapi.kugou.com/yy/index.php",
         changeOrigin: true,
         secure: true
-   
+     },
+     "/api/*":{
+        target:"http://fs.w.kugou.com/",
+        changeOrigin:true,
+        secure:true
      }
     },
     before(app, server) {

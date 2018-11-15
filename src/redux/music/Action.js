@@ -3,7 +3,7 @@ import axios from 'axios';
 import {MusicJson} from '@type'
 const self={
     loadMusicFun:()=>dispatch=>{
-        MusicJson.map(item=>{
+        MusicJson.forEach(item=>{
              axios.get(item)
                 .then(data=>{
                     let index=data.data.indexOf("(");

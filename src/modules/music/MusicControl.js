@@ -1,11 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FontAwesomeIcon as Icon} from '@fortawesome/react-fontawesome'
-import {IconT,MusicJson} from '@type'
+import {IconT} from '@type'
 import '@src/modules/music/music.css'
 import { ToolTip,PromptBox,Range,DrawerBox,Table } from '@cncomp'
-import axios from 'axios'
 import connect from '@connect'
+
 
 const Root=styled.div`
     position:fixed;
@@ -139,7 +139,7 @@ class MusicControl extends React.Component{
             duration:null,//当前音频长度
             currentTime:'00:00',//当前播放的位置,
             value:'0%',
-            number:0,
+            number:0,//当前歌曲的索引
             volumeValue:0.3,
             isListShow:false,//播放列表是否显示
 
@@ -276,6 +276,46 @@ class MusicControl extends React.Component{
             isListShow:false
         })
     }
+    //播放列表播放
+    playBFun=(index)=>{
+        this.setState({
+            number:index,
+            isPlay:true
+        },()=>{
+            setTimeout(()=>{
+                this.props.selectMusicFun(index);
+                this.onPlay(); 
+                this.audio.play();
+            },10)
+        })
+    }
+    //播放列表停止
+    pauseBfun=(index)=>{
+        this.stopFun();
+    }
+    //播放列表下载
+    downMusic=(index)=>{
+        // let url=this.props.musicAll[index].play_url.slice(22);
+        // axios.get(`/api/${url}`)
+        // .then((data)=>{
+            // let blob = new Blob([data.data], {
+            //     type: 'application/octet-stream'
+            // });
+            //  let url = window.URL.createObjectURL(blob)
+            //  let a = document.createElement('a')
+            //  a.href = url
+            //  a.download ='lll.mp3';
+            //  a.click()
+            //  document.body.removeChild(a)
+        // })
+        let aEle = document.createElement('a')
+        aEle.download=this.props.musicAll[index].audio_name;
+        aEle.href=this.props.musicAll[index].play_url;
+        aEle.target="_blank";
+        document.body.appendChild(aEle)
+        aEle.click();
+        document.body.removeChild(aEle)
+    }
     render(){
         const {selectedMusic,musicAll}=this.props;
         const heardData=[{
@@ -289,7 +329,7 @@ class MusicControl extends React.Component{
             }
         ];
         let data=[];
-        musicAll && musicAll.map((item,index)=>{
+        musicAll && musicAll.forEach((item,index)=>{
             data.push({
                 name:item.song_name,
                 author:item.author_name,
@@ -324,7 +364,7 @@ class MusicControl extends React.Component{
                         <PromptBox title='音量'  visible={this.state.isVolumeShow} content={<Range value={this.state.volumeValue} onClick={this.volumeFun}/>}>
                             <ToolTip title="音量"><span className={`${Number(this.state.volumeValue)===0?'muted':''}`}><Icon icon={IconT.faVolume} onClick={this.isVolumeFun} /></span></ToolTip>
                         </PromptBox>
-                        <DrawerBox content={<Table heardData={heardData} selectedNum={this.state.number} data={data} buttons={[<Icon icon={IconT.faPlay} onClick={this.isPlayFun}/>,<Icon icon={IconT.faStop} onClick={this.stopFun}/>,<Icon icon={IconT.faDownload}/>]}/>} title={`播放列表 （${this.props.musicAll.length}）`} width='60%' position={{bottom:'8vh',left:'20%'}} visible={this.state.isListShow} onClose={this.onClickList}>
+                        <DrawerBox content={<Table heardData={heardData} selectedNum={this.state.number} data={data} buttons={[<Icon icon={IconT.faPlay} onClick={this.playBFun}/>,<Icon icon={IconT.faStop} onClick={this.pauseBfun}/>,<Icon icon={IconT.faDownload} onClick={this.downMusic}/>]}/>} title={`播放列表 （${this.props.musicAll.length}）`} width='60%' position={{bottom:'8vh',left:'20%'}} visible={this.state.isListShow} onClose={this.onClickList}>
                             <ToolTip title="播放列表" direction='bottom'><Icon icon={IconT.faList} onClick={this.listBoxFun}/></ToolTip>
                         </DrawerBox>
                         
