@@ -6,7 +6,7 @@
     -moz-animation: showUp .6s ease;
 }
 .hide{
-    bottom: -7.8vh;
+    bottom: -8vh;
     animation:hideDown .6s ease;
     -webkit-animation:hideDown .6s ease;
     -o-animation: hideDown .6s ease;

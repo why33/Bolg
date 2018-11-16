@@ -133,6 +133,7 @@ class MusicControl extends React.Component{
     constructor(props){
         super(props);
         this.state={
+            isShow:false,
             isPlay:false,
             isRepeat:true,
             isVolumeShow:false,
@@ -183,6 +184,10 @@ class MusicControl extends React.Component{
     isLockFun=()=>{
         this.setState({
             isLock:!this.state.isLock
+        },()=>{
+            this.state.isLock && this.setState({
+                isShow:true
+            })
         })
     }
     //上一首
@@ -353,7 +358,7 @@ class MusicControl extends React.Component{
             })
         })
         return (
-            <Root className={`${(this.state.isListShow || this.state.isLock || this.state.isVolumeShow )?'show':'hide'}`} onMouseEnter={this.onMouseenter} onMouseLeave={this.onMouseleave} ref={div=>this.div=div}>
+            <Root className={`${this.state.isShow?'show':'hide'}`} onMouseEnter={this.onMouseenter} onMouseLeave={this.onMouseleave} ref={div=>this.div=div}>
                 <audio ref={audio=>this.audio=audio} src={selectedMusic && selectedMusic.play_url}>该浏览器不支持</audio>
                 <div className='lockSty'>
                     <Icon  icon={this.state.isLock?IconT.faLock:IconT.faLockOpen} onClick={this.isLockFun}/>
