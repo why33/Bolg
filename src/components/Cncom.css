@@ -149,8 +149,7 @@
 .DrawerBox-cont{
     position:fixed;
     width:100%;
-    left:0;
-    bottom:0;
+    z-index:-1;
     background: rgba(51, 51, 51, 0.5);
 
 }
@@ -168,13 +167,101 @@
     right:5px;
     font-weight: bolder;
 }
+.DrawerBox-animation-bottom{
+    animation:DrawerBoxBottom 1s ease-out forwards;
+    -moz-animation: DrawerBoxBottom 1s ease-out forwards;
+    -webkit-animation: DrawerBoxBottom 1s ease-out forwards;
+    -o-animation:DrawerBoxBottom 1s ease-out forwards;
+}
+.DrawerBox-animation-top{
+    animation:DrawerBoxTop 1s ease-out forwards;
+    -moz-animation: DrawerBoxTop 1s ease-out forwards;
+    -webkit-animation: DrawerBoxTop 1s ease-out forwards;
+    -o-animation:DrawerBoxTop 1s ease-out forwards;
+}
+.DrawerBox-animation-left{
+    animation:DrawerBoxLeft 1s ease-out forwards;
+    -moz-animation: DrawerBoxLeft 1s ease-out forwards;
+    -webkit-animation: DrawerBoxLeft 1s ease-out forwards;
+    -o-animation:DrawerBoxLeft 1s ease-out forwards;
+}
+.DrawerBox-animation-right{
+    animation:DrawerBoxRight 1s ease-out forwards;
+    -moz-animation: DrawerBoxRight 1s ease-out forwards;
+    -webkit-animation: DrawerBoxRight 1s ease-out forwards;
+    -o-animation:DrawerBoxRight 1s ease-out forwards;
+}
+@keyframes DrawerBoxRight{
+    0%{
+        opacity: 0;
+        transform:scaleX(0);
+        -webkit-transform: scaleX(0);
+        -moz-transform: scaleX(0);
+        -o-transform: scaleX(0);
+        -webkit-transform-origin:200% 0  0;
+        -moz-transform-origin: 200% 0 0;
+        -o-transform-origin: 200% 0 0;
+        transform-origin:200% 0 0;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+@keyframes DrawerBoxLeft{
+    0%{
+        opacity: 0;
+        transform:scaleX(0);
+        -webkit-transform: scaleX(0);
+        -moz-transform: scaleX(0);
+        -o-transform: scaleX(0);
+        -webkit-transform-origin:-200% 0  0;
+        -moz-transform-origin: -200% 0 0;
+        -o-transform-origin: -200% 0 0;
+        transform-origin:-200% 0 0;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+@keyframes DrawerBoxTop{
+    0%{
+        opacity: 0;
+        transform:scaleY(0);
+        -webkit-transform: scaleY(0);
+        -moz-transform: scaleY(0);
+        -o-transform: scaleY(0);
+        -webkit-transform-origin:0 -200%  0;
+        -moz-transform-origin: 0 -200% 0;
+        -o-transform-origin:0 -200%  0;
+        transform-origin:0 -200% 0;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+@keyframes DrawerBoxBottom{
+    0%{
+        opacity: 0;
+        transform:scaleY(0);
+        -webkit-transform: scaleY(0);
+        -moz-transform: scaleY(0);
+        -o-transform: scaleY(0);
+        -webkit-transform-origin:0 200%  0;
+        -moz-transform-origin:  0 200%  0;
+        -o-transform-origin: 0 200%  0;
+        transform-origin:0 200% 0;
+    }
+    100%{
+        opacity: 1;
+    }
+}
 /* ------------------------------------------------------------- */
 /* 表格 */
 .Table{
     width:100%;
     font-size: 1.3vh;
     line-height:3vh;
-    height:18vh;
+    height:10vh;
     overflow-y:auto ;
 }
 .Table>table{
@@ -213,8 +300,8 @@
 .Table-selected{
     background: #99c4df;
 }
-.Table-selected .Table-buttons>span:nth-of-type(1){
-    color:red;
+.Table-selected .Table-buttons span:nth-child(1)>svg{
+   color: #9c6735;
 }
 .Table-buttons>span>*{
     pointer-events: none;
@@ -230,3 +317,4 @@
     box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
     background: #d3e5f1;
 }
+

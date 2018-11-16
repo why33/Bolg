@@ -46,9 +46,6 @@ class ToolTip extends React.Component{
 class PromptBox extends React.Component{
     constructor(props){
         super(props);
-        this.state={
-           
-        }
     }
     render(){
         return (
@@ -95,10 +92,12 @@ class Range extends React.Component{
 /**
  * 抽屉
  * titile:标签名
+ * visible:是否可见（必填）
  * width:抽屉的宽度，默认为100%,
- * position：抽屉的位置(obj)，key值：top|right|bottom|left,默认：{bottom:0,right:0}
+ * position：抽屉的位置(obj)，值：{position:top|right|bottom(默认)|left,sty:{}},position是抽屉放置的地方,sty是放置的位置，由top，right，left，bottom具体决定（css）
  * content：抽屉的内容
  * onClose：抽屉关闭或取消时，调用的函数
+ * 
  */
 class DrawerBox extends React.Component{
     onClose=()=>{
@@ -106,11 +105,11 @@ class DrawerBox extends React.Component{
     }
     render(){
         const {position,title,width,visible}=this.props;
-        let styleObj=Object.assign({},(position || {bottom:0,right:0}),{width:width||'100%'});
+        let styleObj=Object.assign({},(position.sty || {bottom:0,left:0}),{width:width||'100%'});
         return (
             <div className="DrawerBox">
                 {this.props.children}
-                <div className="DrawerBox-cont" style={styleObj} hidden={!visible|| false}>
+                <div className={`DrawerBox-cont DrawerBox-animation-${position.position}`} style={styleObj} hidden={!visible|| false}>
                     <header>
                         <div className='DrawerBox-con-header'>
                             {title}<span onClick={this.onClose}>&#215;</span>
@@ -128,6 +127,9 @@ class DrawerBox extends React.Component{
  * data:数据(array-obj),必须[{value:value...}]
  * buttons:按钮集合[],图标组件的集合,图标组件中属性onClick代表点击事件,图标组件的参数为表格中的tr的索引，从0开始
  * selectedNum:默认选中行的索引，从0开始
+ * width，宽度，默认100%；
+ * height：高度，默认10vh;
+ * 
  */
 class Table extends React.Component{
     componentDidMount(){
@@ -138,18 +140,15 @@ class Table extends React.Component{
         this.head.style.position='ansolute';  
         this.head.style.zIndex='1000';
     }
-
-    buttonClick=(index,fun,e)=>{
-        e.stopPropagation();
-        //fun(index);
-    }
+    //表格按钮点击事件
     clickButFun=(index,fun)=>{
         fun(index)
     }
     render(){
-        const {heardData,data,buttons,selectedNum}=this.props;
+        const {heardData,data,buttons,selectedNum,width,height}=this.props;
+        let sty={width:width||"100%",height:height||'10vh'};
         return (
-            <div className='Table' ref={table=>this.table=table}>
+            <div className='Table' ref={table=>this.table=table} style={sty}>
                 <table border={0} >
                     <thead  className='Table-thead' ref={head=>this.head=head}>
                         <tr align='left'>

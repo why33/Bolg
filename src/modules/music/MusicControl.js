@@ -9,6 +9,7 @@ import connect from '@connect'
 
 const Root=styled.div`
     position:fixed;
+    z-index:10;
     width:100%;
     height:8vh;
     background:rgba(204,255,255,.3);
@@ -145,6 +146,16 @@ class MusicControl extends React.Component{
 
         }
     }
+    componentWillMount(){ 
+        this.props.loadMusicFun();
+    }
+    componentDidMount(){
+        setTimeout(()=>{
+            this.props.selectMusicFun(this.state.number);
+            this.onPlay();
+            this.isPlayFun();
+        },10)
+    }
     isPlayFun=()=>{
         this.state.isPlay ? this.audio.pause():this.audio.play();
         this.setState({
@@ -160,13 +171,18 @@ class MusicControl extends React.Component{
     isVolumeFun=()=>{
         this.setState({
             isVolumeShow:!this.state.isVolumeShow
+        },()=>{
+            this.state.isVolumeShow && setTimeout(()=>{
+                this.setState({
+                    isVolumeShow:!this.state.isVolumeShow
+                })
+            },5000)
         })
+
     }
     isLockFun=()=>{
         this.setState({
             isLock:!this.state.isLock
-        },()=>{
-           
         })
     }
     //上一首
@@ -206,8 +222,9 @@ class MusicControl extends React.Component{
     }
     onMouseleave=(e)=>{
         e.stopPropagation();
-        // !this.state.isLock && this.div.classList.replace('show',"hide");
-       
+        !this.state.isLock && this.div.classList.replace('show',"hide");
+        this.state.isListShow && this.div.classList.replace('hide',"show");
+        this.state.isVolumeShow && this.div.classList.replace('hide',"show");
     }
     stopFun=()=>{
         this.audio.currentTime=0;
@@ -251,12 +268,7 @@ class MusicControl extends React.Component{
         })
        
     }
-    componentDidMount(){
-        setTimeout(()=>{
-            this.props.selectMusicFun(this.state.number);
-            this.onPlay();
-        },10)
-    }
+    
     volumeFun=(range,obj)=>{
         let offsetP=range.offsetParent;
         let num=null;
@@ -269,6 +281,11 @@ class MusicControl extends React.Component{
             volumeValue:valueNow
         },()=>{
             this.audio.volume=this.state.volumeValue;
+            setTimeout(()=>{
+                this.setState({
+                    isVolumeShow:false
+                })
+            },5000)
         })
     }
     onClickList=()=>{
@@ -335,9 +352,8 @@ class MusicControl extends React.Component{
                 author:item.author_name,
             })
         })
-       
         return (
-            <Root className='show' onMouseEnter={this.onMouseenter} onMouseLeave={this.onMouseleave} ref={div=>this.div=div}>
+            <Root className={`${(this.state.isListShow || this.state.isLock || this.state.isVolumeShow )?'show':'hide'}`} onMouseEnter={this.onMouseenter} onMouseLeave={this.onMouseleave} ref={div=>this.div=div}>
                 <audio ref={audio=>this.audio=audio} src={selectedMusic && selectedMusic.play_url}>该浏览器不支持</audio>
                 <div className='lockSty'>
                     <Icon  icon={this.state.isLock?IconT.faLock:IconT.faLockOpen} onClick={this.isLockFun}/>
@@ -364,7 +380,14 @@ class MusicControl extends React.Component{
                         <PromptBox title='音量'  visible={this.state.isVolumeShow} content={<Range value={this.state.volumeValue} onClick={this.volumeFun}/>}>
                             <ToolTip title="音量"><span className={`${Number(this.state.volumeValue)===0?'muted':''}`}><Icon icon={IconT.faVolume} onClick={this.isVolumeFun} /></span></ToolTip>
                         </PromptBox>
-                        <DrawerBox content={<Table heardData={heardData} selectedNum={this.state.number} data={data} buttons={[<Icon icon={IconT.faPlay} onClick={this.playBFun}/>,<Icon icon={IconT.faStop} onClick={this.pauseBfun}/>,<Icon icon={IconT.faDownload} onClick={this.downMusic}/>]}/>} title={`播放列表 （${this.props.musicAll.length}）`} width='60%' position={{bottom:'8vh',left:'20%'}} visible={this.state.isListShow} onClose={this.onClickList}>
+                        <DrawerBox 
+                            content={<Table height='18vh' heardData={heardData} selectedNum={this.state.number} data={data} buttons={[<Icon icon={IconT.faPlay} onClick={this.playBFun}/>,<Icon icon={IconT.faStop} onClick={this.pauseBfun}/>,<Icon icon={IconT.faDownload} onClick={this.downMusic}/>]}/>} 
+                            title={`播放列表 （${this.props.musicAll.length}）`} 
+                            width='60%' 
+                            position={{position:'bottom',sty:{bottom:'8vh',left:'20%'}}}
+                            visible={this.state.isListShow} 
+                            onClose={this.onClickList}
+                        >
                             <ToolTip title="播放列表" direction='bottom'><Icon icon={IconT.faList} onClick={this.listBoxFun}/></ToolTip>
                         </DrawerBox>
                         

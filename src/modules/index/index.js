@@ -48,9 +48,6 @@ const Root=styled.div`
 `
 @connect('index','music') 
 class Content extends React.Component{
-    componentWillMount(){ 
-        this.props.loadMusicFun();
-    }
     render(){
         return (
            <Root>
