@@ -2,6 +2,8 @@ import React from 'react'
 import styled, { keyframes } from 'styled-components'
 import { FontAwesomeIcon as Icon} from '@fortawesome/react-fontawesome'
 import {IconT} from '@type'
+import { Link} from 'react-router-dom'
+import { COMBINATOR } from 'postcss-selector-parser';
 
 const aniLoading=keyframes`
     0%{
@@ -23,6 +25,7 @@ const Root=styled.div`
     top:${props=>props.p*10+"%"};
     animation:${aniLoading} .8s ease;
     padding:10px;
+    cursor:${props=>props.checked?"pointer":"default"};
     .titleSty{
         position:relative;
         width:100%;
@@ -62,17 +65,37 @@ const Root=styled.div`
     }
     
 `
-export default  class RectBack extends React.Component{
+// 点击跳转方块
+class RectBack extends React.Component{
     render(){
-        const {w,h,p,t,icon}=this.props;
+        const {w,h,p,t,icon,link}=this.props;
+        let path=link ? link:'./';
         return (
-
-            <Root w={w} h={h} p={p} t={t}>
-                <div className='titleSty'>
-                    <Icon icon={IconT[icon]}/>
-                </div>
+            <Root w={w} h={h} p={p} t={t} onClick={this.props.onClick} checked>
+                <Link to={path}>
+                    <div className='titleSty'>
+                        <Icon icon={IconT[icon]}/>
+                    </div>
+                </Link>
             </Root>
+           
+            
         )
     }
 
 }
+// 内容方块
+class RectContent extends React.Component{
+    render(){
+        const {w,h,p,component}=this.props;
+        console.log(component)
+        return (
+            <Root w={w} h={h} p={p}>
+                <div className='titleSty'>
+                    ddd
+                </div>
+            </Root>
+        )
+    }
+}
+export {RectBack,RectContent}

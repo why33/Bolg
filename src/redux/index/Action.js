@@ -6,6 +6,10 @@ const self={
             type:Type.CHECKED_NUM,
             data:num
         })
-    }
+    },
+    path_change_fun:(val)=>dispatch=>dispatch({
+        type:Type.PATH_CHANGE,
+        data:val
+    }),
 }
 export default self;

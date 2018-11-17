@@ -1,6 +1,7 @@
 import Type from "./Type"
 const initialState={
-    checkedNum:1
+    checkedNum:1,
+    path:'/',
 }
 const getNewState=function(state=initialState,action){
     switch (action.type){
@@ -8,6 +9,11 @@ const getNewState=function(state=initialState,action){
             return {
                 ...state,
                 checkedNum:action.data
+            }
+        case Type.PATH_CHANGE:
+            return {
+                ...state,
+                path:action.data
             }
         default:
             return state   

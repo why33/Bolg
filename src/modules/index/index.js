@@ -1,9 +1,12 @@
 import React from 'react'
 import svg from '@src/App.svg'
 import styled from 'styled-components'
-import RectBack from '@comp/RectBack'
 import MusicControl from '@src/modules/music/MusicControl'
 import connect from '@connect'
+import { BrowserRouter as Router,Route,withRouter} from 'react-router-dom'
+import './index.css'
+import Main from "./Main"
+import Music from '@module/music'
 
 
 const Root=styled.div`
@@ -32,22 +35,31 @@ const Root=styled.div`
             text-shadow:0 0 1px #000;
         }
     }
-    .mainSty{
-        flex-grow:1;
-        display:flex;
-        flex-wrap:wrap;
-        align-content: flex-start;
-        justify-content:flex-end;
-        width:100%;
-        height:0;
-        overflow:hidden;
-    }
-
-
 
 `
+class Content1 extends React.Component{
+    render(){
+        let path=this.props.match.path;
+        let Comp=null;
+        switch (path) {
+            case "/music":
+                Comp=Music;
+                break;
+            default:
+                Comp=Main;
+                break;
+        }
+        return (
+           <Comp {...this.props}/>
+        )
+    }
+} 
+const Xx=withRouter(Content1)
 @connect('index','music') 
 class Content extends React.Component{
+    componentDidMount(){
+        this.props.path_change_fun(window.location.pathname);
+    }
     render(){
         return (
            <Root>
@@ -57,15 +69,9 @@ class Content extends React.Component{
                     </div>
                     <p>.............</p>
                </header>
-               <div className='mainSty'>
-                    <RectBack w={2} h={6} p={0} t='music' icon="faMusic"/>
-                    <RectBack w={5} h={3} p={0} t='article' icon="faArticle"/>
-                    <RectBack w={3} h={3} p={0} t='picture' icon="faPhoto"/>
-                    <RectBack w={2} h={4} p={0} t='index' icon="faHome"/>
-                    <RectBack w={5} h={7} p={-3} t='code' icon="faCode"/>
-                    <RectBack w={3} h={4} p={-3} t='video' icon="faFilm"/>
-                    <RectBack w={3} h={3} p={-6} t='intro' icon="faAddressCard"/>
-               </div>
+               <Router>
+                    <Route exact path={this.props.path} render={(props)=>(<Xx {...this.props} {...props}/>)}/>
+                </Router>
                <MusicControl/>
            </Root>
 
@@ -73,4 +79,5 @@ class Content extends React.Component{
     }
 
 }
+
 export default Content;

@@ -44,9 +44,6 @@ class ToolTip extends React.Component{
  * 
  */
 class PromptBox extends React.Component{
-    constructor(props){
-        super(props);
-    }
     render(){
         return (
             <div className={`PromptBox`}  ref={box=>this.box=box}>
