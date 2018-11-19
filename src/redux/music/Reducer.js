@@ -2,7 +2,8 @@ import Type from './Type';
 
 const initialState={
     musicAll:[],
-    selectedMusic:{}
+    selectedMusic:{},
+    time:null
 };
 const getNewState=function(state=initialState,action){
     switch(action.type){
@@ -15,6 +16,11 @@ const getNewState=function(state=initialState,action){
             return {
                 ...state,
                 selectedMusic:action.data
+            }
+        case Type.GET_TIME:
+            return {
+                ...state,
+                time:action.data
             }
         default:
             return state

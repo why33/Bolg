@@ -21,5 +21,11 @@ const self={
             data:getState().music.musicAll[index]
         })
     },
+    getTimeFun:val=>dispatch=>{
+        dispatch({
+            type:Type.GET_TIME,
+            data:val
+        })
+    }
 }
 export default self;

@@ -249,13 +249,18 @@ class MusicControl extends React.Component{
         this.audio.ontimeupdate=()=>{
             let TimePlay=this.audio.currentTime/60;
             let TimeP=String(TimePlay).split('.');
+            let timeNEW=`${(10-TimeP[0])?('0'+TimeP[0]):TimeP[0]}:${TimeP[1]?TimeP[1].slice(0,2):'00'}`;
             this.setState({
-                currentTime:`${(10-TimeP[0])?('0'+TimeP[0]):TimeP[0]}:${TimeP[1]?TimeP[1].slice(0,2):'00'}`,
+                currentTime:timeNEW,
                 value:(this.audio.currentTime/this.audio.duration*100).toFixed(2)+"%"
             })
             if(this.audio.ended){
                 this.state.isRepeat ? this.audio.play() : this.isForwardFun();
             }
+            console.log(111,timeNEW,TimeP[1]/1000)
+            
+            // this.props.getTimeFun && this.props.getTimeFun(timeNEW);
+
         }
     }
     listBoxFun=()=>{

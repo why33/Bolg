@@ -3,7 +3,7 @@ import styled, { keyframes } from 'styled-components'
 import { FontAwesomeIcon as Icon} from '@fortawesome/react-fontawesome'
 import {IconT} from '@type'
 import { Link} from 'react-router-dom'
-import { COMBINATOR } from 'postcss-selector-parser';
+
 
 const aniLoading=keyframes`
     0%{
@@ -25,7 +25,7 @@ const Root=styled.div`
     top:${props=>props.p*10+"%"};
     animation:${aniLoading} .8s ease;
     padding:10px;
-    cursor:${props=>props.checked?"pointer":"default"};
+    cursor:pointer;
     .titleSty{
         position:relative;
         width:100%;
@@ -65,6 +65,44 @@ const Root=styled.div`
     }
     
 `
+const RootC=styled.div`
+    width:${props=>props.w*10+"%"};
+    height:${props=>props.h*10+"%"};
+    box-sizing:border-box;
+    position:relative;
+    top:${props=>props.p*10+"%"};
+    animation:${aniLoading} .8s ease;
+    position:relative;
+    padding:10px;
+    .sty{
+        position:absolute;
+        top:10px;
+        left:10px;
+        width:calc( 100% - 20px );
+        height:calc( 100% - 20px );
+        box-sizing:border-box;
+        padding:10px;
+        background:rgba(255,255,255,.45);
+        background-clip:content-box;
+        -webkit-filter: blur(5px);
+    　　-moz-filter: blur(5px);
+    　　-ms-filter: blur(5px);
+    　　filter: blur(5px);
+    }
+    .titleSty{
+        position:absolute;
+        top:10px;
+        left:10px;
+        width:calc( 100% - 20px );
+        height:calc( 100% - 20px );
+        box-shadow: 0 0 0 1px hsla(240,0%,100%,.3) inset,
+        0 3px 20px 1px rgba(0, 0, 0, 0.3);
+        border-radius:10px;
+        border:1px solid transparent;
+    }
+    
+    
+`
 // 点击跳转方块
 class RectBack extends React.Component{
     render(){
@@ -88,13 +126,14 @@ class RectBack extends React.Component{
 class RectContent extends React.Component{
     render(){
         const {w,h,p,component}=this.props;
-        console.log(component)
+        let Comp=component;
         return (
-            <Root w={w} h={h} p={p}>
+            <RootC w={w} h={h} p={p}>
+                <div className='sty'></div>
                 <div className='titleSty'>
-                    ddd
+                    <Comp/>
                 </div>
-            </Root>
+            </RootC>
         )
     }
 }
