@@ -246,7 +246,8 @@ class MusicControl extends React.Component{
                 duration:`${(10-timeE[0])?('0'+timeE[0]):timeE[0]}:${timeE[1].slice(0,2)}`
             })
         }
-        this.audio.ontimeupdate=()=>{
+        let lyricTimeCha=this.props.lyricTimeCha;
+        this.audio.addEventListener("timeupdate",()=>{
             let TimePlay=this.audio.currentTime/60;
             let TimeP=String(TimePlay).split('.');
             let timeNEW=`${(10-TimeP[0])?('0'+TimeP[0]):TimeP[0]}:${TimeP[1]?TimeP[1].slice(0,2):'00'}`;
@@ -257,11 +258,10 @@ class MusicControl extends React.Component{
             if(this.audio.ended){
                 this.state.isRepeat ? this.audio.play() : this.isForwardFun();
             }
-            console.log(111,timeNEW,TimeP[1]/1000)
-            
-            // this.props.getTimeFun && this.props.getTimeFun(timeNEW);
+            let objLri=lyricTimeCha.find(item=>item.time===Math.floor(this.audio.currentTime));
+            this.props.getTimeFun && this.props.getTimeFun(objLri);
 
-        }
+        })
     }
     listBoxFun=()=>{
         this.setState({

@@ -15,7 +15,7 @@ const Root=styled.div`
     }
     .Table{
         &>table .Table-thead>tr{
-           background:#9c6735;
+           background:#b8783f;
            color:#fff;
         }
         td{
@@ -65,7 +65,7 @@ class MusicList extends React.Component{
         return (
             <Root>
                 <div className='headSty'>{`播放列表 ( ${this.props.musicAll.length} )`}</div>
-                <Table width="100%" height="85%" data={data} heardData={heardData}/>
+                <Table width="100%" height="82%" data={data} heardData={heardData}/>
             </Root>
         )
     }

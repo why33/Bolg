@@ -21,11 +21,18 @@ const self={
             data:getState().music.musicAll[index]
         })
     },
-    getTimeFun:val=>dispatch=>{
-        dispatch({
-            type:Type.GET_TIME,
-            data:val
-        })
-    }
+    getTimeFun:obj=>dispatch=>{
+        if(obj){
+            dispatch({
+                type:Type.GET_TIME,
+                data:obj.time,
+            }) 
+        }
+    },
+    //歌词差
+    lyricTimeChaFun:obj=>dispatch=>dispatch({
+        type:Type.GET_LYRIC_TIME_CHA,
+        data:obj
+    }),
 }
 export default self;
