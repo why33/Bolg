@@ -34,5 +34,15 @@ const self={
         type:Type.GET_LYRIC_TIME_CHA,
         data:obj
     }),
+    //是否播放
+    isPlayFunction:val=>dispatch=>dispatch({
+        type:Type.IS_PLAY,
+        data:val
+    }),
+    //播放索引
+    indexSelectedFun:val=>dispatch=>dispatch({
+        type:Type.INDEX_SELECTED,
+        data:val
+    }),
 }
 export default self;

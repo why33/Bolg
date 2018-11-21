@@ -261,7 +261,7 @@
     width:100%;
     font-size: 1.3vh;
     height:10vh;
-    overflow-y:auto ;
+    overflow-y:auto;
 }
 .Table>table{
     width:100%;
@@ -303,6 +303,9 @@
 }
 .Table-selected{
     background: #99c4df;
+}
+.Table-click{
+    cursor:pointer;
 }
 .Table-selected .Table-buttons span:nth-child(1)>svg{
    color: #9c6735;

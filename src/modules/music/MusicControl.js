@@ -134,7 +134,6 @@ class MusicControl extends React.Component{
         super(props);
         this.state={
             isShow:false,
-            isPlay:true,
             isRepeat:true,
             isVolumeShow:false,
             isLock:false,
@@ -156,12 +155,16 @@ class MusicControl extends React.Component{
             this.onPlay();
         },100)
     }
+    componentWillReceiveProps(nextProps){
+        if(nextProps.isPlay!==this.props.isPlay){
+            this.props.isPlay ? this.audio.pause():this.audio.play();
+            this.setState({
+                currentTime:(this.audio.currentTime/60).toFixed(2)
+            })
+        }
+    }
     isPlayFun=()=>{
-        this.state.isPlay ? this.audio.pause():this.audio.play();
-        this.setState({
-            isPlay:!this.state.isPlay,
-            currentTime:(this.audio.currentTime/60).toFixed(2)
-        })
+        this.props.isPlayFunction(!this.props.isPlay);
     }
     isRepeatFun=()=>{
         this.setState({
@@ -196,8 +199,9 @@ class MusicControl extends React.Component{
             value:'0%'
         },()=>{
             setTimeout(()=>{
+                this.props.indexSelectedFun(this.state.number);
                 this.props.selectMusicFun(this.state.number);
-                if(this.state.isPlay){
+                if(this.props.isPlay){
                     this.onPlay(); 
                     this.audio.play();
                 }
@@ -207,14 +211,23 @@ class MusicControl extends React.Component{
     //下一首
     isForwardFun=()=>{
         this.setState({
-            number:(this.state.number===this.props.musicAll.length-1)?0:this.state.number+1,
+            number:(this.props.indexSelected===this.props.musicAll.length-1)?0:this.props.indexSelected+1,
             value:'0%'
         },()=>{
             setTimeout(()=>{
                 this.props.selectMusicFun(this.state.number);
-                if(this.state.isPlay){
-                    this.onPlay(); 
-                    this.audio.play();
+                this.props.indexSelectedFun(this.state.number);
+                if(this.props.isPlay){
+                    let promise=new Promise((resolve,reject)=>{
+                        this.onPlay(); 
+                        if(this.audio.readyState===4){
+                            resolve();
+                        }
+                    })
+                    promise.then(()=>{
+                        this.audio.play();
+                    })
+                    
                 }
             },10)
            
@@ -233,9 +246,7 @@ class MusicControl extends React.Component{
     stopFun=()=>{
         this.audio.currentTime=0;
         this.audio.pause();
-        this.setState({
-            isPlay:false
-        })
+        this.props.isPlayFunction(false);
     }
     onPlay=()=>{
         this.audio.load();
@@ -304,12 +315,13 @@ class MusicControl extends React.Component{
     }
     //播放列表播放
     playBFun=(index)=>{
+        this.props.isPlayFunction(true);
         this.setState({
             number:index,
-            isPlay:true
         },()=>{
             setTimeout(()=>{
                 this.props.selectMusicFun(index);
+                this.props.indexSelectedFun(index);
                 this.onPlay(); 
                 this.audio.play();
             },10)
@@ -363,14 +375,14 @@ class MusicControl extends React.Component{
         })
         return (
             <Root className={`${this.state.isShow?'show':'hide'}`} onMouseEnter={this.onMouseenter} onMouseLeave={this.onMouseleave} ref={div=>this.div=div}>
-                <audio autoPlay ref={audio=>this.audio=audio} src={selectedMusic && selectedMusic.play_url}>该浏览器不支持</audio>
+                <audio autoPlay={this.props.isPlay} ref={audio=>this.audio=audio} src={selectedMusic && selectedMusic.play_url}>该浏览器不支持</audio>
                 <div className='lockSty'>
                     <Icon  icon={this.state.isLock?IconT.faLock:IconT.faLockOpen} onClick={this.isLockFun}/>
                 </div>
                 <div className='controlSty'>
                     <div className='control_play'>
                         <ToolTip title="上一首" direction='left'><Icon icon={IconT.faBackward} onClick={this.isBackFun}/></ToolTip>
-                        <ToolTip title={this.state.isPlay?"播放":"暂停"} direction='top'><Icon icon={this.state.isPlay?IconT.faPause:IconT.faPlay} onClick={this.isPlayFun}/></ToolTip>
+                        <ToolTip title={this.props.isPlay?"播放":"暂停"} direction='top'><Icon icon={this.props.isPlay?IconT.faPause:IconT.faPlay} onClick={this.isPlayFun}/></ToolTip>
                         <ToolTip title="下一首" direction='right'><Icon icon={IconT.faForward} onClick={this.isForwardFun}/></ToolTip>
                     </div>
                     <div className='control_range'>
@@ -390,7 +402,7 @@ class MusicControl extends React.Component{
                             <ToolTip title="音量"><span className={`${Number(this.state.volumeValue)===0?'muted':''}`}><Icon icon={IconT.faVolume} onClick={this.isVolumeFun} /></span></ToolTip>
                         </PromptBox>
                         <DrawerBox 
-                            content={<Table height='18vh' heardData={heardData} selectedNum={this.state.number} data={data} buttons={[<Icon icon={IconT.faPlay} onClick={this.playBFun}/>,<Icon icon={IconT.faStop} onClick={this.pauseBfun}/>,<Icon icon={IconT.faDownload} onClick={this.downMusic}/>]}/>} 
+                            content={<Table height='18vh' heardData={heardData} selectedNum={this.props.indexSelected} data={data} buttons={[<Icon icon={IconT.faPlay} onClick={this.playBFun}/>,<Icon icon={IconT.faStop} onClick={this.pauseBfun}/>,<Icon icon={IconT.faDownload} onClick={this.downMusic}/>]}/>} 
                             title={`播放列表 （${this.props.musicAll.length}）`} 
                             width='60%' 
                             position={{position:'bottom',sty:{bottom:'8vh',left:'20%'}}}

@@ -3,6 +3,7 @@ import { FontAwesomeIcon as Icon} from '@fortawesome/react-fontawesome'
 import styled from 'styled-components'
 import {IconT} from '@type'
 import connect from '@connect'
+import {ToolTip} from '@cncomp'
 
 const Root=styled.div`
    
@@ -21,6 +22,7 @@ const Root=styled.div`
             font-size:2vh;
             padding:0.5vh;
             color:#525252; 
+            cursor:pointer;
         }
     }
     .detailSty{
@@ -57,6 +59,22 @@ const Root=styled.div`
 `
 @connect('music')
 class MusicButControl extends React.Component{
+    //是否播放
+    isPlayF=()=>{
+        this.props.isPlayFunction(!this.props.isPlay)
+    }
+    // 上一首
+    Backfun=()=>{
+        let index=(this.props.indexSelected===0)?(this.props.musicAll.length-1):(this.props.indexSelected-1);
+        this.props.selectMusicFun(index);
+        this.props.indexSelectedFun(index);
+    }
+    //下一首
+    Forwordfun=()=>{
+        let index=(this.props.indexSelected===this.props.musicAll.length-1)?0:(this.props.indexSelected+1);
+        this.props.selectMusicFun(index);
+        this.props.indexSelectedFun(index);
+    }
     render(){
         const {selectedMusic}=this.props;
         let timeD=null;
@@ -74,9 +92,9 @@ class MusicButControl extends React.Component{
         return (
             <Root>
                 <div className="buttonStyle">
-                    <Icon icon={IconT.faBackward}/>
-                    <Icon icon={IconT.faPlay}/>
-                    <Icon icon={IconT.faForward}/>
+                    <ToolTip title="上一首" ><Icon icon={IconT.faBackward} onClick={this.Backfun}/></ToolTip>
+                    <ToolTip title={this.props.isPlay?"播放":"暂停"} ><Icon icon={this.props.isPlay?IconT.faPause:IconT.faPlay} onClick={this.isPlayF}/></ToolTip>
+                    <ToolTip title="下一首"><Icon icon={IconT.faForward} onClick={this.Forwordfun}/></ToolTip>
                 </div>
                 <ul className='detailSty'>
                     <li className='imgSty'><img src={selectedMusic.img} alt='专辑图片'/></li>

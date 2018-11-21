@@ -5,6 +5,8 @@ const initialState={
     selectedMusic:{},
     time:0,//播放时间
     lyricTimeCha:[],//歌词时间差
+    isPlay:true,//是否播放,
+    indexSelected:0,//选中歌曲的索引
 };
 const getNewState=function(state=initialState,action){
     switch(action.type){
@@ -16,7 +18,9 @@ const getNewState=function(state=initialState,action){
         case Type.SELECT_MUSIC:
             return {
                 ...state,
-                selectedMusic:action.data
+                selectedMusic:action.data,
+                time:0,
+                lyricTimeCha:[]
             }
         case Type.GET_TIME:
             return {
@@ -28,6 +32,16 @@ const getNewState=function(state=initialState,action){
                 ...state,
                 lyricTimeCha:action.data
 
+            }
+        case Type.IS_PLAY:
+            return {
+                ...state,
+                isPlay:action.data
+            }
+        case Type.INDEX_SELECTED:
+            return {
+                ...state,
+                indexSelected:action.data
             }
         default:
             return state

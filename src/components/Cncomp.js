@@ -126,14 +126,16 @@ class DrawerBox extends React.Component{
  * selectedNum:默认选中行的索引，从0开始
  * width，宽度，默认100%；
  * height：高度，默认10vh;
+ * onClick：tr的点击是事件，参数默认为data相对应的数据。可以不写
  * 
  */
 class Table extends React.Component{
     componentDidMount(){
         this.table.addEventListener('scroll',this.scrollFun)
     }
+    //表头固定
     scrollFun=()=>{
-        this.head.style.transform=`translateY(${this.table.scrollTop}px` ;
+        this.head.style.transform=`translateY(${this.table.scrollTop}px)` ;
         this.head.style.position='ansolute';  
         this.head.style.zIndex='1000';
     }
@@ -141,8 +143,17 @@ class Table extends React.Component{
     clickButFun=(index,fun)=>{
         fun(index)
     }
+    //tr点击事件
+    onClickF=(index)=>{
+        if(this.props.onClick){
+            this.props.onClick(index);
+            this.table.scrollTop='2vh'
+        }else{
+            return null;
+        }
+    }
     render(){
-        const {heardData,data,buttons,selectedNum,width,height}=this.props;
+        const {heardData,data,buttons,selectedNum,width,height,onClick}=this.props;
         let sty={width:width||"100%",height:height||'10vh'};
         return (
             <div className='Table' ref={table=>this.table=table} style={sty}>
@@ -161,7 +172,7 @@ class Table extends React.Component{
                                    
                                })
                                return (
-                                   <tr key={item.name+"-"+index} className={`Table-body ${selectedNum===index && 'Table-selected'}`}>
+                                   <tr key={item.name+"-"+index} className={`Table-body ${selectedNum===index && 'Table-selected'} ${onClick && 'Table-click'}`} onClick={this.onClickF.bind(this,index)}>
                                      {arr}
                                      {buttons && (<td className="Table-buttons">
                                        {

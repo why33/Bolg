@@ -24,14 +24,19 @@ const Root=styled.div`
         .Table-body{
             border-bottom:1px solid #c4c0c7;
         }
-
-
+        &::-webkit-scrollbar{
+            display:none;
+        }
     }
     
 `
 
 @connect('music')
 class MusicList extends React.Component{
+    onClickPlay(index){
+        this.selectMusicFun(index);
+        this.indexSelectedFun(index);
+    }
     render(){
         const heardData=[{
             key:'name',
@@ -47,7 +52,7 @@ class MusicList extends React.Component{
             width:'20%'
         }];
         let data=[];
-        this.props.musicAll.forEach(item=>{
+        this.props.musicAll.forEach((item,index)=>{
             let author='';
             let timeD=null;
             item.authors.forEach((au,i)=>{
@@ -65,7 +70,7 @@ class MusicList extends React.Component{
         return (
             <Root>
                 <div className='headSty'>{`播放列表 ( ${this.props.musicAll.length} )`}</div>
-                <Table width="100%" height="82%" data={data} heardData={heardData}/>
+                <Table width="100%" height="82%" {...this.props} data={data} heardData={heardData} selectedNum={this.props.indexSelected} onClick={this.onClickPlay}/>
             </Root>
         )
     }
