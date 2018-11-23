@@ -1,4 +1,4 @@
-import { faMusic,faDownload,faList,faStop,faVolumeUp,faVolumeOff,faRandom,faRedo,faForward,faBackward,faFilm,faAddressCard,faHome,faFileImage,faFileCode,faEdit,faLock,faLockOpen,faPause,faPlay, faPlayCircle } from '@fortawesome/free-solid-svg-icons'
+import { faMusic,faQuestion,faDownload,faList,faStop,faVolumeUp,faVolumeOff,faRandom,faRedo,faForward,faBackward,faFilm,faAddressCard,faHome,faFileImage,faFileCode,faEdit,faLock,faLockOpen,faPause,faPlay, faPlayCircle } from '@fortawesome/free-solid-svg-icons'
 export const IconT={
     "faMusic":faMusic,
     "faFilm":faFilm,
@@ -21,6 +21,7 @@ export const IconT={
     "faStop":faStop,
     "faList":faList,
     "faDownload":faDownload,
+    "faQuestion":faQuestion,
     
 }
 export const MusicJson=[

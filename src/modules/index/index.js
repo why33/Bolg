@@ -7,6 +7,9 @@ import { BrowserRouter as Router,Route,withRouter} from 'react-router-dom'
 import './index.css'
 import Main from "./Main"
 import Music from '@module/music'
+import {DrawerBox,Button} from '@cncomp'
+import { FontAwesomeIcon as Icon} from '@fortawesome/react-fontawesome'
+import {IconT} from '@type'
 
 
 const Root=styled.div`
@@ -37,6 +40,25 @@ const Root=styled.div`
     }
 
 `
+const Div=styled.div`
+    width:100%;
+    box-sizing:border-box;
+    padding:1vh 2vh;
+    background:#d3e5f1;
+    border-radius:0 0 30% 0;
+    box-shadow:0 0 0.5vh  gray;
+    p{
+        color:#666;
+        font-weight:bold;
+        letter-spacing:0.2vh;
+        font-size:1.6vh;
+        line-height:3vh;
+    }
+    div{
+        text-align:right;
+    }
+    
+`
 class Content1 extends React.Component{
     render(){
         let path=this.props.match.path;
@@ -54,11 +76,52 @@ class Content1 extends React.Component{
         )
     }
 } 
-const Xx=withRouter(Content1)
+const Con=withRouter(Content1);
+
+//提示是否播放音乐组件
+class MusicAllow extends React.Component{
+    onClickOk=()=>{
+        let audio=document.getElementById("audio");
+        this.props.isPlayFunction(true);
+        audio.play();
+        this.props.onChange(false);
+    }
+    onClickNO=()=>{
+        this.props.onChange(false);
+    }
+    render(){
+        return (
+            <Div>
+                <p>可以播放音乐吗<Icon icon={IconT.faQuestion}/> </p>
+                <div>
+                     <Button onClick={this.onClickOk}>可以</Button>  
+                     <Button type="info"onClick={this.onClickNO}>不可</Button>
+                </div>
+                             
+            </Div>
+        )
+    }
+}
 @connect('index','music') 
 class Content extends React.Component{
+    constructor(props){
+        super(props);
+        this.state={
+            isShow:true,//提示播放按钮
+        }
+    }
     componentDidMount(){
         this.props.path_change_fun(window.location.pathname);
+    }
+    onChange=(val)=>{
+        this.setState({
+            isShow:val
+        })
+    }
+    onClose=()=>{
+        this.setState({
+            isShow:false
+        })
     }
     render(){
         return (
@@ -70,9 +133,16 @@ class Content extends React.Component{
                     <p>.............</p>
                </header>
                <Router>
-                    <Route exact path={this.props.path} render={(props)=>(<Xx {...this.props} {...props}/>)}/>
+                    <Route exact path={this.props.path} render={(props)=>(<Con {...this.props} {...props}/>)}/>
                 </Router>
                <MusicControl/>
+               <DrawerBox 
+                    visible={this.state.isShow} 
+                    width="30%"
+                    position={{position:'top',sty:{top:'0',left:'35%'}}}
+                    content={<MusicAllow {...this.props} onChange={this.onChange}/>}
+                    onClose={this.onClose}
+                />
            </Root>
 
         )

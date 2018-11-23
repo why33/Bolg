@@ -1,5 +1,6 @@
 import React from 'react'
 import "@comp/Cncom.css"
+import PropTypes from 'prop-types';
 
 /**
  * 文字提示(组件包裹型)
@@ -88,13 +89,13 @@ class Range extends React.Component{
 }
 /**
  * 抽屉
- * titile:标签名
+ * titile:标签名(选填))
  * visible:是否可见（必填）
  * width:抽屉的宽度，默认为100%,
  * position：抽屉的位置(obj)，值：{position:top|right|bottom(默认)|left,sty:{}},position是抽屉放置的地方,sty是放置的位置，由top，right，left，bottom具体决定（css）
  * content：抽屉的内容
  * onClose：抽屉关闭或取消时，调用的函数
- * 
+ * closeTime:string，定时关闭，几秒后自动关闭，例如：3s，默认不关闭
  */
 class DrawerBox extends React.Component{
     onClose=()=>{
@@ -104,12 +105,12 @@ class DrawerBox extends React.Component{
         const {position,title,width,visible}=this.props;
         let styleObj=Object.assign({},(position.sty || {bottom:0,left:0}),{width:width||'100%'});
         return (
-            <div className="DrawerBox">
+            <div className={`DrawerBox DrawerBox_${position.position}_${visible || false}`}>
                 {this.props.children}
-                <div className={`DrawerBox-cont DrawerBox-animation-${position.position}`} style={styleObj} hidden={!visible|| false}>
+                <div className={`DrawerBox-cont DrawerBox-animation-${position.position}` } style={styleObj}>
                     <header>
                         <div className='DrawerBox-con-header'>
-                            {title}<span onClick={this.onClose}>&#215;</span>
+                            {title || null}<span onClick={this.onClose}>&#215;</span>
                         </div>
                     </header>
                    {this.props.content}
@@ -197,4 +198,50 @@ class Table extends React.Component{
         )
     }
 }
-export {ToolTip,PromptBox,Range,DrawerBox,Table}
+/**
+ * 按钮组件
+ * onClick：点击事件
+ * type:按钮类型 default(默认)|info|warn
+ */
+class Button extends React.Component{
+    render(){
+        const { type,onClick}=this.props;
+        return (
+            <button className={`Button ButtonType_${type}`} onClick={onClick}>{this.props.children}</button>
+        )
+    }
+}
+Button.propTypes={
+    type:PropTypes.string,
+    onClick:PropTypes.func
+}
+Button.defaultProps={
+    type:'default',
+    onClick:()=>{}
+}
+/**
+ * 弹窗组件
+ * title：标题
+ * content：内容
+ * button ：footer中的按钮部分
+ * shadowB：背景遮罩，布尔值：true|false(默)
+ * type:弹框类型 default|info|warn
+ * 
+ */
+class ModalBox extends React.Component{
+    render(){
+        const {shadowB}=this.props;
+        return(
+            <div className={`ModalBox ModalBox_shadow-${shadowB}`}>
+                弹窗
+            </div>
+        )
+    }
+}
+ModalBox.prototypes={
+  
+};
+ModalBox.defaultProps={
+    shadowB:true
+};
+export {ToolTip,PromptBox,Range,DrawerBox,Table,Button,ModalBox}

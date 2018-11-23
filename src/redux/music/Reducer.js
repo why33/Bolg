@@ -5,7 +5,7 @@ const initialState={
     selectedMusic:{},
     time:0,//播放时间
     lyricTimeCha:[],//歌词时间差
-    isPlay:true,//是否播放,
+    isPlay:false,//是否播放,
     indexSelected:0,//选中歌曲的索引
 };
 const getNewState=function(state=initialState,action){

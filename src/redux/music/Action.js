@@ -15,7 +15,7 @@ const self={
                 })
         })
     },
-    selectMusicFun:(index)=>(dispatch,getState)=>{
+    selectMusicFun:(index)=>async (dispatch,getState)=>{
         dispatch({
             type:Type.SELECT_MUSIC,
             data:getState().music.musicAll[index]

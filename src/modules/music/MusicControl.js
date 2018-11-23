@@ -63,6 +63,7 @@ const Root=styled.div`
             p{
                 display:block;
                 width:100%;
+                height:3.5vh;
                 font-size:1.5vh;
                 line-height:3.5vh;
                 font-weight:bold;
@@ -133,16 +134,17 @@ class MusicControl extends React.Component{
     constructor(props){
         super(props);
         this.state={
-            isShow:false,
+            isShow:true,
             isRepeat:true,
             isVolumeShow:false,
-            isLock:false,
+            isLock:true,
             duration:null,//当前音频长度
             currentTime:'00:00',//当前播放的位置,
             value:'0%',
             number:0,//当前歌曲的索引
             volumeValue:0.3,
             isListShow:false,//播放列表是否显示
+            readyState:0,
 
         }
     }
@@ -152,8 +154,9 @@ class MusicControl extends React.Component{
     componentDidMount(){
         setTimeout(()=>{
             this.props.selectMusicFun(this.state.number);
-            this.onPlay();
-        },100)
+            this.onPlay()
+        },1000)
+
     }
     componentWillReceiveProps(nextProps){
         if(nextProps.isPlay!==this.props.isPlay){
@@ -162,6 +165,33 @@ class MusicControl extends React.Component{
                 currentTime:(this.audio.currentTime/60).toFixed(2)
             })
         }
+       
+        if(this.props.selectedMusic!==nextProps.selectedMusic){
+            let lyric=null;
+            let lyricObjs=[];
+            let lyricTimeCha=[];
+            lyric=nextProps.selectedMusic.lyrics.split("[");
+            lyricObjs=lyric.map((item,index)=>{
+                let strLyric=item.split("]");
+                let lyricTime=strLyric[0].split(":");
+                let numTime=Math.floor(Number(lyricTime[0]*60)+Number(lyricTime[1]));
+                return {
+                    time:numTime,
+                    value:strLyric[1]
+                }
+            })
+            let objL=lyricObjs.filter(item=>item.value);
+                for(let i=0;i<objL.length;i++){
+                if(i!==objL.length-1){
+                    lyricTimeCha.push({
+                        time:objL[i].time,
+                        cha:objL[i+1].time-objL[i].time
+                    })
+                }
+            }
+            this.props.lyricTimeChaFun(lyricTimeCha)
+        }
+        
     }
     isPlayFun=()=>{
         this.props.isPlayFunction(!this.props.isPlay);
@@ -170,6 +200,10 @@ class MusicControl extends React.Component{
         this.setState({
             isRepeat:!this.state.isRepeat
         })
+        if(!this.state.isRepeat){
+            this.isForwardFun();
+        }
+        
     }
     isVolumeFun=()=>{
         this.setState({
@@ -218,16 +252,7 @@ class MusicControl extends React.Component{
                 this.props.selectMusicFun(this.state.number);
                 this.props.indexSelectedFun(this.state.number);
                 if(this.props.isPlay){
-                    let promise=new Promise((resolve,reject)=>{
-                        this.onPlay(); 
-                        if(this.audio.readyState===4){
-                            resolve();
-                        }
-                    })
-                    promise.then(()=>{
-                        this.audio.play();
-                    })
-                    
+                    this.audio.play();
                 }
             },10)
            
@@ -256,6 +281,9 @@ class MusicControl extends React.Component{
             this.setState({
                 duration:`${(10-timeE[0])?('0'+timeE[0]):timeE[0]}:${timeE[1].slice(0,2)}`
             })
+        }
+        this.audio.onerror=()=>{
+            this.isForwardFun();
         }
         let lyricTimeCha=this.props.lyricTimeCha;
         this.audio.addEventListener("timeupdate",()=>{
@@ -375,7 +403,7 @@ class MusicControl extends React.Component{
         })
         return (
             <Root className={`${this.state.isShow?'show':'hide'}`} onMouseEnter={this.onMouseenter} onMouseLeave={this.onMouseleave} ref={div=>this.div=div}>
-                <audio autoPlay={this.props.isPlay} ref={audio=>this.audio=audio} src={selectedMusic && selectedMusic.play_url}>该浏览器不支持</audio>
+                <audio id='audio' ref={audio=>this.audio=audio} src={selectedMusic && selectedMusic.play_url}>该浏览器不支持</audio>
                 <div className='lockSty'>
                     <Icon  icon={this.state.isLock?IconT.faLock:IconT.faLockOpen} onClick={this.isLockFun}/>
                 </div>
@@ -386,7 +414,7 @@ class MusicControl extends React.Component{
                         <ToolTip title="下一首" direction='right'><Icon icon={IconT.faForward} onClick={this.isForwardFun}/></ToolTip>
                     </div>
                     <div className='control_range'>
-                        <p>{selectedMusic && selectedMusic.audio_name}</p>
+                        <p>{selectedMusic ? selectedMusic.audio_name:' \xa0 '}</p>
                         <div>
                             <span className="control_progress" onClick={this.clickRangeFun} ref={range=>this.range=range}>
                                <span style={{width:this.state.value}}></span>
