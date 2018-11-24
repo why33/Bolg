@@ -95,9 +95,33 @@ class Range extends React.Component{
  * position：抽屉的位置(obj)，值：{position:top|right|bottom(默认)|left,sty:{}},position是抽屉放置的地方,sty是放置的位置，由top，right，left，bottom具体决定（css）
  * content：抽屉的内容
  * onClose：抽屉关闭或取消时，调用的函数
- * closeTime:string，定时关闭，几秒后自动关闭，例如：3s，默认不关闭
+ * closeTime:number，定时关闭，几秒后自动关闭(可选)，例如：3，默认不关闭
  */
 class DrawerBox extends React.Component{
+    constructor(props){
+        super(props);
+        this.state={
+            first:false
+        }
+    }
+    componentDidMount(){
+        !this.props.visible && this.setState({
+            first:true
+        })
+        if(this.props.closeTime){
+            setTimeout(()=>{
+                this.props.onClose();
+            },this.props.closeTime*1000)
+        }
+    }
+    componentWillReceiveProps(nextProps){
+        if(nextProps.visible!==this.props.visible){
+            this.setState({
+                first:false
+            })
+        }
+        
+    }
     onClose=()=>{
        this.props.onClose();
     }
@@ -105,16 +129,30 @@ class DrawerBox extends React.Component{
         const {position,title,width,visible}=this.props;
         let styleObj=Object.assign({},(position.sty || {bottom:0,left:0}),{width:width||'100%'});
         return (
-            <div className={`DrawerBox DrawerBox_${position.position}_${visible || false}`}>
+            <div className="DrawerBox">
                 {this.props.children}
-                <div className={`DrawerBox-cont DrawerBox-animation-${position.position}` } style={styleObj}>
-                    <header>
-                        <div className='DrawerBox-con-header'>
-                            {title || null}<span onClick={this.onClose}>&#215;</span>
+                {
+                    this.state.first ?(
+                        <div className={`DrawerBox-cont ${visible ? ("DrawerBox-animation-"+position.position):("DrawerBox-animation") }`}  style={styleObj}>
+                            <header>
+                                <div className='DrawerBox-con-header'>
+                                    {title || null}<span onClick={this.onClose}>&#215;</span>
+                                </div>
+                            </header>
+                        {this.props.content}
                         </div>
-                    </header>
-                   {this.props.content}
-                </div>
+                    ):(
+                        <div className={`DrawerBox-cont ${visible ? ("DrawerBox-animation-"+position.position):("DrawerBox_"+position.position+"_false") }`}  style={styleObj}>
+                            <header>
+                                <div className='DrawerBox-con-header'>
+                                    {title || null}<span onClick={this.onClose}>&#215;</span>
+                                </div>
+                            </header>
+                        {this.props.content}
+                        </div>
+                    )
+                }
+                
             </div>
         )
     }

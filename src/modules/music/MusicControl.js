@@ -436,6 +436,7 @@ class MusicControl extends React.Component{
                             position={{position:'bottom',sty:{bottom:'8vh',left:'20%'}}}
                             visible={this.state.isListShow} 
                             onClose={this.onClickList}
+                            style={{display:'none'}}
                         >
                             <ToolTip title="播放列表" direction='bottom'><Icon icon={IconT.faList} onClick={this.listBoxFun}/></ToolTip>
                         </DrawerBox>
