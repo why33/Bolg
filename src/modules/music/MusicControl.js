@@ -134,10 +134,10 @@ class MusicControl extends React.Component{
     constructor(props){
         super(props);
         this.state={
-            isShow:true,
+            isShow:false,
             isRepeat:true,
             isVolumeShow:false,
-            isLock:true,
+            isLock:false,
             duration:null,//当前音频长度
             currentTime:'00:00',//当前播放的位置,
             value:'0%',
@@ -165,7 +165,15 @@ class MusicControl extends React.Component{
                 currentTime:(this.audio.currentTime/60).toFixed(2)
             })
         }
-       
+        if(nextProps.indexSelected!==this.props.indexSelected){
+            this.onPlay();
+            setTimeout(()=>{
+                !this.props.isPlay ? this.audio.pause():this.audio.play();
+                this.setState({
+                    currentTime:(this.audio.currentTime/60).toFixed(2)
+                })
+            },1000)
+        }
         if(this.props.selectedMusic!==nextProps.selectedMusic){
             let lyric=null;
             let lyricObjs=[];
@@ -189,7 +197,8 @@ class MusicControl extends React.Component{
                     })
                 }
             }
-            this.props.lyricTimeChaFun(lyricTimeCha)
+            this.props.lyricTimeChaFun(lyricTimeCha);
+           
         }
         
     }
@@ -252,6 +261,7 @@ class MusicControl extends React.Component{
                 this.props.selectMusicFun(this.state.number);
                 this.props.indexSelectedFun(this.state.number);
                 if(this.props.isPlay){
+                     this.onPlay();
                     this.audio.play();
                 }
             },10)

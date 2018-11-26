@@ -74,6 +74,9 @@ class MusicButControl extends React.Component{
         let index=(this.props.indexSelected===this.props.musicAll.length-1)?0:(this.props.indexSelected+1);
         this.props.selectMusicFun(index);
         this.props.indexSelectedFun(index);
+        if(this.props.isPlay){
+            this.props.isPlayFunction(true)
+        }
     }
     render(){
         const {selectedMusic}=this.props;

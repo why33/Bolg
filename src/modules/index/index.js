@@ -142,7 +142,7 @@ class Content extends React.Component{
                     position={{position:'top',sty:{top:'0',left:'35%'}}}
                     content={<MusicAllow {...this.props} onChange={this.onChange}/>}
                     onClose={this.onClose}
-                    closeTime={5}
+                    closeTime={8}
                 />
            </Root>
 
