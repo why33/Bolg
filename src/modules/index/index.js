@@ -6,6 +6,7 @@ import connect from '@connect'
 import { BrowserRouter as Router,Route,withRouter} from 'react-router-dom'
 import './index.css'
 import Main from "./Main"
+import Article from '@module/article'
 import Music from '@module/music'
 import {DrawerBox,Button} from '@cncomp'
 import { FontAwesomeIcon as Icon} from '@fortawesome/react-fontawesome'
@@ -66,6 +67,9 @@ class Content1 extends React.Component{
         switch (path) {
             case "/music":
                 Comp=Music;
+                break;
+            case "/article":
+                Comp=Article;
                 break;
             default:
                 Comp=Main;
@@ -130,7 +134,7 @@ class Content extends React.Component{
                     <div  className='logoSty'>
                         <img src={svg} alt="logo"/>
                     </div>
-                    <p>.............</p>
+                    <p>闲的。。。</p>
                </header>
                <Router>
                     <Route exact path={this.props.path} render={(props)=>(<Con {...this.props} {...props}/>)}/>

@@ -24,6 +24,7 @@ const Root=styled.div`
     box-sizing:border-box;
     position:relative;
     top:${props=>props.p*10+"%"};
+    left:${props=>props.l*10+"%"};
     animation:${aniLoading} .8s ease;
     -webkit-animation:${aniLoading} .8s ease;
     -moz-animation:${aniLoading} .8s ease;
@@ -38,10 +39,11 @@ const Root=styled.div`
         0 3px 20px 1px rgba(0, 0, 0, 0.3);
         border-radius:10px;
         border:1px solid transparent;
-        svg{
+        &>svg,
+        &>div{
             position:absolute;
-            width:25%;
-            height:30%;
+            width:30%;
+            height:35%;
             top:0;
             left:0;
             right:0;
@@ -49,8 +51,17 @@ const Root=styled.div`
             color:#666666;
             z-index:2;
             margin:auto;
-            
         }
+        &>div{
+            width:100%;
+            text-align:center;
+            font-size:2.5vh;
+            svg{
+                font-size:2vh;
+                margin-right:0.5vh;
+            }
+        }
+        
     }
     .titleSty::before{
         content:"";
@@ -86,6 +97,7 @@ const RootC=styled.div`
     box-sizing:border-box;
     position:relative;
     top:${props=>props.p*10+"%"};
+    left:${props=>props.l*10+'%'};
     animation:${aniLoading} .8s ease;
     -webkit-animation:${aniLoading} .8s ease;
     -moz-animation:${aniLoading} .8s ease;
@@ -131,14 +143,13 @@ const RootC=styled.div`
     
     
 `
-// 点击跳转方块
+// 点击图标跳转方块
 class RectBack extends React.Component{
-   
     render(){
-        const {w,h,p,t,icon,link}=this.props;
-        let path=link ? link:'./';
+        const {w,h,p,t,icon,link,style,l}=this.props;
+        let path=link ? link:'/';
         return (
-            <Root w={w} h={h} p={p} t={t}  onClick={this.props.onClick}  checked>
+            <Root w={w||1} h={h||1} p={p||0} t={t||""} l={l||0} style={style||null} onClick={this.props.onClick}  checked>
                 <Link to={path}>
                     <div className='titleSty'>
                         <Icon icon={IconT[icon]}/>
@@ -149,13 +160,33 @@ class RectBack extends React.Component{
     }
 
 }
+//点击内容方块
+class RectClick extends React.Component{
+    render(){
+        const {w,h,p,t,icon,style,l}=this.props;
+        return (
+            <Root w={w||1} h={h||1} p={p||0} t={t||""} l={l||0} style={style||null}>
+                 <div className='titleSty'>
+                     <div>
+                            {
+                                icon?<Icon icon={IconT[icon]}/>:""
+                            }
+                            {t}
+                     </div>
+                     
+                 </div>
+            </Root>
+        )
+    }
+}
+
 // 内容方块
 class RectContent extends React.Component{
     render(){
-        const {w,h,p,component}=this.props;
+        const {w,h,p,component,style,l}=this.props;
         let Comp=component;
         return (
-            <RootC w={w} h={h} p={p}>
+            <RootC w={w||1} h={h||1} p={p||0} l={l || 0}style={style || null}>
                 <div className='sty'></div>
                 <div className='titleSty'>
                     <Comp/>
@@ -164,4 +195,4 @@ class RectContent extends React.Component{
         )
     }
 }
-export {RectBack,RectContent}
+export {RectBack,RectContent,RectClick}

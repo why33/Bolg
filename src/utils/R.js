@@ -1,4 +1,4 @@
-import { faMusic,faQuestion,faDownload,faList,faStop,faVolumeUp,faVolumeOff,faRandom,faRedo,faForward,faBackward,faFilm,faAddressCard,faHome,faFileImage,faFileCode,faEdit,faLock,faLockOpen,faPause,faPlay, faPlayCircle } from '@fortawesome/free-solid-svg-icons'
+import { faMusic,faCaretRight,faCaretDown,faQuestion,faDownload,faList,faStop,faVolumeUp,faVolumeOff,faRandom,faRedo,faForward,faBackward,faFilm,faAddressCard,faHome,faFileImage,faFileCode,faEdit,faLock,faLockOpen,faPause,faPlay, faPlayCircle } from '@fortawesome/free-solid-svg-icons'
 export const IconT={
     "faMusic":faMusic,
     "faFilm":faFilm,
@@ -22,6 +22,8 @@ export const IconT={
     "faList":faList,
     "faDownload":faDownload,
     "faQuestion":faQuestion,
+    "faCaretRight":faCaretRight,
+    "faCaretDown":faCaretDown,
     
 }
 export const MusicJson=[
@@ -37,4 +39,23 @@ export const MusicJson=[
     "/music/api?r=play/getdata&callback=jQuery191010380342338103099_1542615043093&hash=54A947506E98B831E5BF69BB64B20D2F&album_id=1760444&_=1542615043094",
     "/music/api?r=play/getdata&callback=jQuery19103036728597829872_1542615309214&hash=87D1049EEE8E236836E8340D969D0C0B&album_id=1947052&_=1542615309215",
     
+]
+//文章对应目录
+export const ArticleJson=[
+    {
+        title:'Javascript',
+        children:[
+            {title:'123',children:[{title:'3333'}]},
+            {title:'456'}]
+    },
+    {
+        title:'CSS'
+    },
+    {
+        title:'ES6'
+    },
+    {
+        title:'Jquery'
+    }
+
 ]

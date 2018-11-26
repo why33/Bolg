@@ -20,3 +20,15 @@
     height:0;
     overflow:hidden;
 }
+/* 文章界面模块样式 */
+.articleSty{
+    flex-grow:1;
+    display:flex;
+    flex-wrap:wrap;
+    /* flex-direction:column;  */
+    align-content: flex-start;
+    justify-content:flex-start;
+    width:100%;
+    height:0;
+    overflow:hidden;
+}

@@ -10,7 +10,7 @@ export default class Main extends React.Component{
         return (
             <div className='mainSty'>
                 <RectBack w={2} h={6} p={0} t='music' icon="faMusic" onClick={this.clickFun.bind(this,'/music')} link="/music"/>   
-                <RectBack w={5} h={3} p={0} t='article' icon="faArticle"/>
+                <RectBack w={5} h={3} p={0} t='article' icon="faArticle" onClick={this.clickFun.bind(this,'/article')} link="/article"/>
                 <RectBack w={3} h={3} p={0} t='picture' icon="faPhoto"/>
                 <RectBack w={2} h={4} p={0} t='index' icon="faHome" onClick={this.clickFun.bind(this,'/')} link="/"/>
                 <RectBack w={5} h={7} p={-3} t='code' icon="faCode"/>
