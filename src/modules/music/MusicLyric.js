@@ -81,6 +81,7 @@ class MusicLyric extends React.Component{
             let lyricObjs=[];
             let lyricTimeCha=[];
             lyric=nextProps.selectedMusic.lyrics.split("[");
+            console.log(lyric)
             lyricObjs=lyric.map((item,index)=>{
                 let strLyric=item.split("]");
                 let lyricTime=strLyric[0].split(":");
@@ -107,6 +108,7 @@ class MusicLyric extends React.Component{
         }
     }
     render(){
+        console.log(this.state.lyricObj)
         let top=(this.props.time && this.state.time)?(this.props.time*1000/this.state.time*this.state.lyricObj.length):0;
         return (
             <Root top={top}>
