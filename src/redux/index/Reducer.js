@@ -19,4 +19,4 @@ const getNewState=function(state=initialState,action){
             return state   
     }
 }
-export default getNewState
+export default getNewState;

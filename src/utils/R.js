@@ -41,7 +41,7 @@ export const MusicJson=[
     
 ]
 //文章对应目录
-export const ArticleJson=[
+export const ArticleJson0=[
     {
         title:'Javascript',
         children:[
@@ -56,6 +56,42 @@ export const ArticleJson=[
     },
     {
         title:'Jquery'
+    }
+
+]
+export const ArticleJson1=[
+    {
+        title:'Javascript1',
+        children:[
+            {title:'1231',children:[{title:'33331'}]},
+            {title:'4561'}]
+    },
+    {
+        title:'CSS1'
+    },
+    {
+        title:'ES61'
+    },
+    {
+        title:'Jquery1'
+    }
+
+]
+export const ArticleJson2=[
+    {
+        title:'Javascript12',
+        children:[
+            {title:'12312',children:[{title:'333312'}]},
+            {title:'45612'}]
+    },
+    {
+        title:'CSS12'
+    },
+    {
+        title:'ES612'
+    },
+    {
+        title:'Jquery12'
     }
 
 ]

@@ -1,21 +1,25 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FontAwesomeIcon as Icon} from '@fortawesome/react-fontawesome'
-import {IconT,ArticleJson} from '@type'
+import {IconT,ArticleJson0,ArticleJson1,ArticleJson2} from '@type'
+import connect from '@connect'
 
+const ArticleJson=[ArticleJson0,ArticleJson1,ArticleJson2];
 const Root=styled.div`
     width:100%;
     height:100%;
-    padding:20px 0;
+    padding:20px 5px;
     box-sizing:border-box;
+    ul,li{
+        padding:0;
+        margin:0;
+    }
     .articleList{
         width:100%;
         height:100%;
-        border:1px solid;
         list-style:none;
         li{
             box-sizing:border-box;
-            padding-left:2vh;
         }
         &>li{
             width:100%;
@@ -27,35 +31,38 @@ const Root=styled.div`
             border-bottom:1px solid #c4c0c7;
         }
         
-        li>div{
+        li>.divSty{
             width:100%;
             cursor:pointer;
             span{
                 display:inline-block;
                 vertical-align:middle;
                 width:2vh;
-                height:3vh;
-                margin-right:5px;   
+                height:3.5vh;
                 svg{
-                    width:100%
-                    height:100%;
-                    font-size:1.5vh; 
-                    
-                    color:#666; 
-                     
+                    width:70%
+                    height:70%;
+                    font-size:1.2vh; 
+                    color:#666;
                 }
-
             }
-           
-         
         }
-        li>.liChildrenSty{
+        li>.divSty:hover{
+            background:#99c4df;
+        }
+        li .liChildrenSty{
+            width:90%;
+            box-sizing:border-box;
+            padding-left:5px;
             list-style:none;
+            margin:0 auto auto 10px;
+            border-left:1px solid #c4c0c7;
         }
     }
+   
 
 `
-
+@connect('article')
 class ArticleList extends React.Component{
     constructor(props){
         super(props);
@@ -63,20 +70,34 @@ class ArticleList extends React.Component{
             data:[]
         }
     }
-    ulMapData=()=>{
-        let data=ArticleJson.map((item,index)=>{
-            return (<TreeNode obj={item} index={index} key={`0-${index}`}>{
-                item.children?this.ulMapData(item.children):""
-            }</TreeNode>)
+    ulMapData=(objs,key)=>{
+        let data=objs.map((item,index)=>{
+            return (
+                <TreeNode obj={item} index={index} key={`${key}-${index}`}>
+                    {
+                        item.children
+                        ?
+                        (
+                            <ul className='liChildrenSty'>
+                                {
+                                this.ulMapData(item.children,`0-${index}`) 
+                                }
+                            </ul>
+                        )
+                        
+                        :null
+                    }
+                </TreeNode>)
         })
         return data
 
     }
     render(){
+        const { indexArticle }=this.props;
         return (
             <Root>
                 <ul className='articleList'>
-                    {this.ulMapData()}
+                    {this.ulMapData(ArticleJson[indexArticle],"0")}
                 </ul>
             </Root>
         )
@@ -89,20 +110,30 @@ class TreeNode extends React.Component{
             isFold:true,//是否折叠
         }
     }
-    // onClickLi=()=>{
-    //     this.setState({
-    //         isFold:!this.state.isFold
-    //     })
-    // }
+    onClickLi=()=>{
+        console.log(222,this.props.obj)
+        this.setState({
+            isFold:!this.state.isFold
+        })
+    }
     render(){
         const {obj,index,keys}=this.props;
         return (
             <li>
-                <div onClick={this.onClickLi}>
+                <div onClick={this.onClickLi} className='divSty'>
                     <span>{obj.children && <Icon icon={this.state.isFold?IconT['faCaretRight']:IconT['faCaretDown']}/>} </span>
                      {obj.title}
                 </div>
+                {
+                    this.props.children 
+                    ?
+                    ( <div hidden={this.state.isFold}>
+                        {this.props.children}
+                    </div>)
+                    :''
+                }
                
+                
             </li>
         )
     }

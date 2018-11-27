@@ -30,7 +30,6 @@ const Root=styled.div`
     -moz-animation:${aniLoading} .8s ease;
     padding:10px;
     cursor:pointer;
-    overflow:hidden;
     .titleSty{
         position:relative;
         width:100%;
@@ -87,6 +86,31 @@ const Root=styled.div`
             color:#b67d45;
         }
     }
+    .activeSty{
+        border:2px solid #fff;
+        box-shadow: 0 0 0 2px hsla(240,0%,100%,.3);
+        svg{
+            color:#b67d45;
+        }
+    }
+    .activeSty:after{
+        position:absolute;
+        content:'';
+        width:2vh;
+        height:2vh;
+        top:0;
+        bottom:0;
+        margin:auto;
+        right:-2vh;
+        box-sizing:border-box;
+        background:#ffffff;
+        box-shadow: 0 0 0 2px hsla(240,0%,100%,.3);
+        -webkit-clip-path:polygon(0 0,2vh 1vh,0vh 2vh);
+        clip-path:polygon(0 0,1.5vh 1vh,0vh 2vh);
+        z-index:10;
+       
+       
+    }
     
     
     
@@ -138,6 +162,7 @@ const RootC=styled.div`
         border:1px solid transparent;
         
     }
+  
    
 
     
@@ -161,12 +186,17 @@ class RectBack extends React.Component{
 
 }
 //点击内容方块
+// checked 被选中
 class RectClick extends React.Component{
+    onClickFun=()=>{
+        this.props.onClick();
+       
+    }
     render(){
-        const {w,h,p,t,icon,style,l}=this.props;
+        const {w,h,p,t,icon,style,l,checked}=this.props;
         return (
-            <Root w={w||1} h={h||1} p={p||0} t={t||""} l={l||0} style={style||null}>
-                 <div className='titleSty'>
+            <Root w={w||1} h={h||1} p={p||0} t={t||""} l={l||0} style={style||null} onClick={this.onClickFun}>
+                 <div className={`titleSty ${checked?'activeSty':""}`} >
                      <div>
                             {
                                 icon?<Icon icon={IconT[icon]}/>:""

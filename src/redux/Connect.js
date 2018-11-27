@@ -2,10 +2,12 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import index from './index/Action';
 import music from './music/Action';
+import article from './article/Action';
 
 const actions={
     index,
-    music
+    music,
+    article,
 }
 const reduceObjects = objArr => objArr.reduce((a, b) => ({
     ...a,
