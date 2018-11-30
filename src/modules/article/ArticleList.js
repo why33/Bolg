@@ -4,6 +4,7 @@ import { FontAwesomeIcon as Icon} from '@fortawesome/react-fontawesome'
 import {IconT,ArticleJson0,ArticleJson1,ArticleJson2} from '@type'
 import connect from '@connect'
 
+
 const ArticleJson=[ArticleJson0,ArticleJson1,ArticleJson2];
 const Root=styled.div`
     width:100%;
@@ -73,7 +74,7 @@ class ArticleList extends React.Component{
     ulMapData=(objs,key)=>{
         let data=objs.map((item,index)=>{
             return (
-                <TreeNode obj={item} index={index} key={`${key}-${index}`}>
+                <TreeNode obj={item} index={index} key={`${key}-${index}`} {...this.props}>
                     {
                         item.children
                         ?
@@ -111,13 +112,13 @@ class TreeNode extends React.Component{
         }
     }
     onClickLi=()=>{
-        console.log(222,this.props.obj)
         this.setState({
             isFold:!this.state.isFold
         })
+        !this.props.children && this.props.articleHtmlContentFun(this.props.obj.url);
     }
     render(){
-        const {obj,index,keys}=this.props;
+        const {obj}=this.props;
         return (
             <li>
                 <div onClick={this.onClickLi} className='divSty'>

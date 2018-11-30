@@ -228,7 +228,7 @@ module.exports = {
       // Adds support for installing with Plug'n'Play, leading to faster installs and adding
       // guards against forgotten dependencies and such.
       PnpWebpackPlugin,
-      require.resolve('babel-plugin-transform-decorators-legacy')
+    
 
       // Prevents users from importing files from outside of src/ (or node_modules/).
       // This often causes confusion because we only process files within src/ with babel.
@@ -297,6 +297,7 @@ module.exports = {
               ),
               
               plugins: [
+                ["@babel/plugin-proposal-decorators", { "legacy": true }],
                 [
                   require.resolve('babel-plugin-named-asset-import'),
                   {

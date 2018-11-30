@@ -4,7 +4,7 @@ import {MusicJson} from '@type'
 const self={
     loadMusicFun:()=>dispatch=>{
         MusicJson.forEach(item=>{
-             axios.get(item)
+             axios.get(item,{withCredentials:true})
                 .then(data=>{
                     let index=data.data.indexOf("(");
                     let newMusicObj=JSON.parse(data.data.slice(index+1,-2));

@@ -1,5 +1,4 @@
 import React from 'react'
-import styled from 'styled-components'
 import {RectBack,RectContent,RectClick} from '@comp/RectBack'
 import ArticleList from './ArticleList'
 import ArticleContent from './ArticleContent'
@@ -44,7 +43,7 @@ class Article extends React.Component{
             checked2:false,
             [`checked${val}`]:true
         })
-        this.props. articleChangeIndexFun(val);
+        this.props.articleChangeIndexFun(val);
     }
     render(){
         return (
