@@ -18,10 +18,20 @@ class ArticleContent extends React.Component{
             this.content.innerHTML=nextProps.htmlContent;
         }
     }
+    componentDidUpdate(){
+       
+       
+    }
+    htmlFun=()=>{
+        // const element=React.createElement('div',this.props.htmlContent)
+    }
     render(){
+        
         return (
             <Root>
-               <div ref={content=>this.content=content}></div>
+               <div ref={content=>this.content=content}>{
+                   this.htmlFun()
+               }</div>
             </Root>
             
         )

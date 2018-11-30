@@ -48,7 +48,8 @@ const Root=styled.div`
                 }
             }
         }
-        li>.divSty:hover{
+        li>.divSty:hover,
+        .activeSty{
             background:#99c4df;
         }
         li .liChildrenSty{
@@ -58,6 +59,11 @@ const Root=styled.div`
             list-style:none;
             margin:0 auto auto 10px;
             border-left:1px solid #c4c0c7;
+            &>li{
+                text-overflow:ellipsis;
+                white-space: nowrap; 
+                overflow: hidden
+            }
         }
     }
    
@@ -116,19 +122,21 @@ class TreeNode extends React.Component{
             isFold:!this.state.isFold
         })
         !this.props.children && this.props.articleHtmlContentFun(this.props.obj.url);
+        !this.props.children && this.props.articleSelectItemFun(this.props.obj)
     }
     render(){
-        const {obj}=this.props;
+        const {obj,itemArticleSelect}=this.props;
         return (
             <li>
-                <div onClick={this.onClickLi} className='divSty'>
+                <div onClick={this.onClickLi} className={`divSty ${itemArticleSelect && (itemArticleSelect.title===obj.title?"activeSty":"")}`} title={this.props.children?null:obj.title}>
                     <span>{obj.children && <Icon icon={this.state.isFold?IconT['faCaretRight']:IconT['faCaretDown']}/>} </span>
-                     {obj.title}
-                </div>
+                    {obj.title}
+                </div>      
                 {
                     this.props.children 
                     ?
-                    ( <div hidden={this.state.isFold}>
+                    ( 
+                    <div hidden={this.state.isFold}>
                         {this.props.children}
                     </div>)
                     :''

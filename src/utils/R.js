@@ -65,7 +65,7 @@ export const ArticleJson0=[
     },{
         title:'Others',
         children:[
-            {title:'web中展示Markdown文件',url:'/mds/markdown.md'}
+            {title:'web中展示Markdown文件',url:'/mds/others/markdown.md'}
         ]
     }
 

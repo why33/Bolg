@@ -26,5 +26,10 @@ const self={
                 })
             })
     },
+    //菜单选中的项
+    articleSelectItemFun:obj=>dispatch=>dispatch({
+        type:Type.ARTICLE_ITEM_SELECT,
+        data:obj
+    }),
 }
 export default self;

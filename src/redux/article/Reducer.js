@@ -3,6 +3,7 @@ import Type from './Type'
 const initialState={
     indexArticle:0,//选中的模块的索引
     htmlContent:null,//选中的内容显示
+    itemArticleSelect:null,//菜单中选中项
    
 }
 const getNewState=function(state=initialState,action){
@@ -16,6 +17,11 @@ const getNewState=function(state=initialState,action){
             return {
                 ...state,
                 htmlContent:action.data
+            }
+        case Type.ARTICLE_ITEM_SELECT:
+            return {
+                ...state,
+                itemArticleSelect:action.data
             }
         default:
             return state   
