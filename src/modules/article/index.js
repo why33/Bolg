@@ -3,6 +3,7 @@ import {RectBack,RectContent,RectClick} from '@comp/RectBack'
 import ArticleList from './ArticleList'
 import ArticleContent from './ArticleContent'
 import connect from '@connect'
+import {FreeDiv} from '@cncomp'
 
 
 @connect('article')
@@ -49,6 +50,7 @@ class Article extends React.Component{
         return (
            <div className='articleSty'>
                <RectClick w={2} h={2.7} p={0} t='Web前端' onClick={this.onClickTipFun.bind(this,0)} checked={this.state.checked0}/>
+               {/* 边边拉伸 */}
                <RectContent w={2.5} h={10} p={0} component={ArticleList}/>
                <RectContent w={5.5} h={10} p={0} component={ArticleContent}/>
                <RectClick w={2} h={2.7} p={-7.4} t='言之有趣' onClick={this.onClickTipFun.bind(this,1)} checked={this.state.checked1}/>
