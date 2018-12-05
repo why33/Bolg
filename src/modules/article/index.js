@@ -3,7 +3,6 @@ import {RectBack,RectContent,RectClick} from '@comp/RectBack'
 import ArticleList from './ArticleList'
 import ArticleContent from './ArticleContent'
 import connect from '@connect'
-import {FreeDiv} from '@cncomp'
 
 
 @connect('article')
@@ -49,13 +48,12 @@ class Article extends React.Component{
     render(){
         return (
            <div className='articleSty'>
-               <RectClick w={2} h={2.7} p={0} t='Web前端' onClick={this.onClickTipFun.bind(this,0)} checked={this.state.checked0}/>
-               {/* 边边拉伸 */}
+               <RectClick w={2} h={2.7} p={0} t='Web前端' onClick={this.onClickTipFun.bind(this,0)} checked={this.state.checked0} aniNO/>
                <RectContent w={2.5} h={10} p={0} component={ArticleList}/>
                <RectContent w={5.5} h={10} p={0} component={ArticleContent}/>
-               <RectClick w={2} h={2.7} p={-7.4} t='言之有趣' onClick={this.onClickTipFun.bind(this,1)} checked={this.state.checked1}/>
-               <RectClick w={2} h={2.7} p={-4.8}  l={-2}  t='胡言乱语' onClick={this.onClickTipFun.bind(this,2)} checked={this.state.checked2}/>
-               <RectBack w={2} h={1.9} p={-2} l={-4} t='index' icon="faHome" onClick={this.clickFun.bind(this,'/')} link="/"/>
+               <RectClick w={2} h={2.7} p={-7.4} t='言之有趣' onClick={this.onClickTipFun.bind(this,1)} checked={this.state.checked1} aniNO/>
+               <RectClick w={2} h={2.7} p={-4.8}  l={-2}  t='胡言乱语' onClick={this.onClickTipFun.bind(this,2)} checked={this.state.checked2} aniNO/>
+               <RectBack w={2} h={1.9} p={-2} l={-4} t='index' icon="faHome" onClick={this.clickFun.bind(this,'/')} link="/" aniNO/>
            </div>
         )
     }

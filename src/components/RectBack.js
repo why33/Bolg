@@ -17,6 +17,16 @@ const aniLoading=keyframes`
         left:0;
     }
 `
+const aniLoadingNo=keyframes`
+    0%{
+        opacity:0;
+       
+    }
+    100%{
+        opacity:1;
+       
+    }
+`
 
 const Root=styled.div`
     width:${props=>props.w*10+"%"};
@@ -26,7 +36,7 @@ const Root=styled.div`
     top:${props=>props.p*10+"%"};
     left:${props=>props.l*10+"%"};
     animation:${aniLoading} .8s ease;
-    -webkit-animation:${aniLoading} .8s ease;
+    -webkit-animation:${props=>props.aniNo?aniLoadingNo:aniLoading} .8s ease;
     -moz-animation:${aniLoading} .8s ease;
     padding:10px;
     cursor:pointer;
@@ -169,12 +179,13 @@ const RootC=styled.div`
     
 `
 // 点击图标跳转方块
+//aniNO禁止移动动画
 class RectBack extends React.Component{
     render(){
-        const {w,h,p,t,icon,link,style,l}=this.props;
+        const {w,h,p,t,icon,link,style,l,aniNO}=this.props;
         let path=link ? link:'/';
         return (
-            <Root w={w||1} h={h||1} p={p||0} t={t||""} l={l||0} style={style||null} onClick={this.props.onClick}  checked>
+            <Root w={w||1} h={h||1} p={p||0} t={t||""} l={l||0} aniNo={aniNO||false} style={style||null} onClick={this.props.onClick}  checked>
                 <Link to={path}>
                     <div className='titleSty'>
                         <Icon icon={IconT[icon]}/>
@@ -187,15 +198,16 @@ class RectBack extends React.Component{
 }
 //点击内容方块
 // checked 被选中
+//aniNO禁止移动动画
 class RectClick extends React.Component{
     onClickFun=()=>{
         this.props.onClick();
        
     }
     render(){
-        const {w,h,p,t,icon,style,l,checked}=this.props;
+        const {w,h,p,t,icon,style,l,checked,aniNO}=this.props;
         return (
-            <Root w={w||1} h={h||1} p={p||0} t={t||""} l={l||0} style={style||null} onClick={this.onClickFun}>
+            <Root w={w||1} h={h||1} p={p||0} t={t||""} l={l||0} aniNo={aniNO||false} style={style||null} onClick={this.onClickFun}>
                  <div className={`titleSty ${checked?'activeSty':""}`} >
                      <div>
                             {

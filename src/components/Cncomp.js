@@ -257,7 +257,105 @@ Button.defaultProps={
     type:'default',
     onClick:()=>{}
 }
-
+/**
+ * 标签页组件
+ * data:array数据 [{title:'xxx',comp:dd,key:1}],key值从1开始
+ * onChange:标签页切换事件，参数为key值
+ * defaultKey：默认打开，key值为1
+ * buttons:额外的按钮，obj：{type:'string',arr:[1,2,3]} type的类型有三种：string(默认)|icon|all
+ * onClick:额外按钮点击事件，默认null
+ * close:是否显示标签的关闭按钮，默认为false，
+ * onClose：关闭按钮的点击事件，默认null，参数为key值
+ */
+class Tab extends React.Component{
+    constructor(props){
+        super(props);
+        this.state={
+            activeKey:this.props.defaultKey
+        }
+    }
+    onChange=(key)=>{
+        this.setState({
+            activeKey:key
+        })
+        this.props.onChange(key)
+    }
+    onClose=(key,e)=>{
+        e.stopPropagation();
+        this.props.onClose(key);
+    }
+    mapTab=(data)=>{
+        return (
+            <React.Fragment>
+               {data.map(item=>(
+                   <li key={item.key} className={this.state.activeKey===item.key ? 'activeTab':''} onClick={this.onChange.bind(this,item.key)}>{item.title}{this.props.close?<span onClick={this.onClose.bind(this,item.key)}>&times;</span>:null}</li>
+               ))}
+            </React.Fragment>
+        )
+        
+    }
+    mapButtons=(data)=>{
+        return (
+            <React.Fragment>
+                {data.arr.map((item,index)=>(<li key={'icon-'+index}>{item}</li>))}
+            </React.Fragment>
+        )
+    }
+    mapCont=(data)=>{
+        return (
+            <React.Fragment>
+               {data.map(item=>(
+                   <li key={item.key} className={this.state.activeKey===item.key ? 'activeCont':''}>{item.comp}</li>
+               ))}
+            </React.Fragment>
+        )
+    }
+    render(){
+        const {data,buttons}=this.props;
+        const left=-(this.state.activeKey-1)*100+'%';
+        const style={
+            left,
+            width:data.length*100+'%'
+        }
+        return (
+            <div className='Tab'>
+                <div className='Tab_header'>
+                   <ul>
+                       {this.mapTab(data)}
+                   </ul>
+                   <div className='Tab_buttons'>
+                       <ul>
+                           {this.mapButtons(buttons)}
+                       </ul>
+                   </div>
+                </div>
+                <div className='Tab_content'>
+                    <ul style={style}>
+                        {this.mapCont(data)}
+                    </ul>
+                </div>
+            </div>
+        )
+    }
+}
+Tab.propTypes={
+    data:PropTypes.array.isRequired,
+    onChange:PropTypes.func,
+    defaultKey:PropTypes.number,
+    buttons:PropTypes.object,
+    onClick:PropTypes.func,
+    close:PropTypes.bool,
+    onClose:PropTypes.func,
+}
+Tab.defaultProps={
+    data:[{title:'Tab1',comp:'Tab1',key:1},{title:'Tab2',comp:'Tab2',key:2},{title:'Tab3',comp:'Tab3',key:3}],
+    onChange:()=>{},
+    defaultKey:1,
+    buttons:{type:'string',arr:['按钮']},
+    onClick:()=>{},
+    close:false,
+    onClose:()=>{},
+}
 /**
  * 弹窗组件
  * title：标题
@@ -283,4 +381,4 @@ ModalBox.prototypes={
 ModalBox.defaultProps={
     shadowB:true
 };
-export {ToolTip,PromptBox,Range,DrawerBox,Table,Button,ModalBox}
+export {ToolTip,PromptBox,Range,DrawerBox,Table,Button,Tab,ModalBox}

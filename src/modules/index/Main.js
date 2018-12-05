@@ -13,7 +13,7 @@ export default class Main extends React.Component{
                 <RectBack w={5} h={3} p={0} t='article' icon="faArticle" onClick={this.clickFun.bind(this,'/article')} link="/article"/>
                 <RectBack w={3} h={3} p={0} t='picture' icon="faPhoto"/>
                 <RectBack w={2} h={4} p={0} t='index' icon="faHome" onClick={this.clickFun.bind(this,'/')} link="/"/>
-                <RectBack w={5} h={7} p={-3} t='code' icon="faCode"/>
+                <RectBack w={5} h={7} p={-3} t='code' icon="faCode" onClick={this.clickFun.bind(this,'/code')} link="/code"/>
                 <RectBack w={3} h={4} p={-3} t='video' icon="faFilm"/>
                 <RectBack w={3} h={3} p={-6} t='intro' icon="faAddressCard"/>
             </div>

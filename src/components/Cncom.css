@@ -840,6 +840,99 @@
     color:#fff;
     background: #9c6735;
 }
+/* ----------------------------------------- */
+/* 标签页组件 */
+.Tab{
+    position: relative;
+    width:100%;
+    height:100%;
+    display: flex;
+    flex-direction: column;
+}
+.Tab_header{
+    display: flex;
+    width:100%;
+    height:5vh;
+    margin-bottom:1.5vh;
+    border-bottom:0.2vh solid #c2b3b373;
+}
+.Tab_header>ul{
+    flex-grow: 1;
+    height:100%; 
+    color:#666;
+    list-style: none; 
+}
+.Tab_header>ul>li{
+    height: 100%;
+    display: inline-block;
+    padding:0 1.5vh;
+    font-size:1.8vh;
+    line-height:5vh;
+    font-weight:500;
+    cursor: pointer;
+}
+.Tab_header>ul>li>span{
+    margin-left:1vh;
+    margin-right: -1vh;
+}
+.activeTab{
+    color: #068beb;
+    border-bottom:0.2vh solid #068beb;
+    
+}
+.Tab_buttons{
+    font-size: 2vh;
+    font-weight:500;
+}
+.Tab_buttons>ul{
+    width:100%;
+    height:3vh;
+    list-style: none;
+    margin-right: 2vh;
+    margin-top:1vh;
+}
+.Tab_buttons>ul>li{
+    float: left;
+    cursor: pointer;
+    
+}
+
+.Tab_buttons>ul>li>*:hover{
+    color: #068beb;
+}
+.Tab_content{
+    height:0%;
+    flex-grow: 1;
+    width:100%;
+    overflow: hidden;
+}
+.Tab_content>ul{
+    position: relative;
+    width: auto;
+    height: 100%;
+    list-style:none;
+    display: flex;
+    transition: left .8s;
+}
+.Tab_content>ul>li{
+    flex:1;
+    height:100%;
+    box-sizing: border-box;
+    padding:0 2vh;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* ---------------------------------------- */
 /* 弹框组件样式 */
 .ModalBox{

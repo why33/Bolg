@@ -1,4 +1,4 @@
-import { faMusic,faCaretRight,faCaretDown,faQuestion,faDownload,faList,faStop,faVolumeUp,faVolumeOff,faRandom,faRedo,faForward,faBackward,faFilm,faAddressCard,faHome,faFileImage,faFileCode,faEdit,faLock,faLockOpen,faPause,faPlay, faPlayCircle } from '@fortawesome/free-solid-svg-icons'
+import { faShareSquare,faMusic,faCaretRight,faCaretDown,faQuestion,faDownload,faList,faStop,faVolumeUp,faVolumeOff,faRandom,faRedo,faForward,faBackward,faFilm,faAddressCard,faHome,faFileImage,faFileCode,faEdit,faLock,faLockOpen,faPause,faPlay, faPlayCircle } from '@fortawesome/free-solid-svg-icons'
 export const IconT={
     "faMusic":faMusic,
     "faFilm":faFilm,
@@ -24,6 +24,7 @@ export const IconT={
     "faQuestion":faQuestion,
     "faCaretRight":faCaretRight,
     "faCaretDown":faCaretDown,
+    'faShareSquare':faShareSquare,
     
 }
 export const MusicJson=[
@@ -112,3 +113,5 @@ export const ArticleJson2=[
     }
 
 ]
+
+//代码对应目录
