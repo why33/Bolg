@@ -339,7 +339,7 @@ class Tab extends React.Component{
     }
 }
 Tab.propTypes={
-    data:PropTypes.array.isRequired,
+    data:PropTypes.array,
     onChange:PropTypes.func,
     defaultKey:PropTypes.number,
     buttons:PropTypes.object,
@@ -355,6 +355,37 @@ Tab.defaultProps={
     onClick:()=>{},
     close:false,
     onClose:()=>{},
+}
+/**
+ * 树形菜单组件
+ * data:array,[{title:'11',children:[{title:'ww'...}]}]
+ * expandKey:array,展开key，默认[],
+ * onChange:点击事件
+ * onRightClick:右键点击事件
+ */
+class Tree extends React.Component{
+    TreeNode=()=>{
+        return <h1>123</h1>
+    }
+    render(){
+        return (
+            <div className='Tree'>
+                
+            </div>
+        )
+    }
+}
+Tree.propTypes={
+    data:PropTypes.array,
+    expandKey:PropTypes.array,
+    onChange:PropTypes.func,
+    onRightClick:PropTypes.func
+}
+Tree.defaultProps={
+    data:[{title:'tree0',key:'0-0'},{title:'tree1',key:'0-1'},{title:'tree2',key:'0-2'}],
+    expandKey:[],
+    onChange:()=>{},
+    onRightClick:()=>{}
 }
 /**
  * 弹窗组件
@@ -381,4 +412,4 @@ ModalBox.prototypes={
 ModalBox.defaultProps={
     shadowB:true
 };
-export {ToolTip,PromptBox,Range,DrawerBox,Table,Button,Tab,ModalBox}
+export {ToolTip,PromptBox,Range,DrawerBox,Table,Button,Tab,Tree,ModalBox}
