@@ -7,13 +7,14 @@ const Root=styled.div`
     height:100%;
 
 `
+const {TreeNode}=Tree
 export default class CodeList extends React.Component{
     render(){
-        
+        console.log(Tree.TreeNode)
         return (
             <Root>
                 <Tree/>
-                
+                <TreeNode/>
             </Root>
         )
     }

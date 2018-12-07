@@ -364,8 +364,13 @@ Tab.defaultProps={
  * onRightClick:右键点击事件
  */
 class Tree extends React.Component{
-    TreeNode=()=>{
-        return <h1>123</h1>
+    constructor(props){
+        super(props)
+        
+        
+    }
+    static TreeNode=()=>{
+        return (<div>静态方法</div>)
     }
     render(){
         return (
@@ -375,6 +380,14 @@ class Tree extends React.Component{
         )
     }
 }
+// class TreeNode extends React.Component{
+//     render(){
+//         return (
+//             <div>TreeNode</div>
+//         )
+//     }
+// }
+// Tree.TreeNode=TreeNode
 Tree.propTypes={
     data:PropTypes.array,
     expandKey:PropTypes.array,
