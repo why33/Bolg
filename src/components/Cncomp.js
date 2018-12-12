@@ -1,6 +1,8 @@
 import React from 'react'
 import "@comp/Cncom.css"
 import PropTypes from 'prop-types';
+import { FontAwesomeIcon as Icon} from '@fortawesome/react-fontawesome'
+import {IconT} from '@type'
 
 /**
  * 文字提示(组件包裹型)
@@ -360,44 +362,82 @@ Tab.defaultProps={
  * 树形菜单组件
  * data:array,[{title:'11',children:[{title:'ww'...}]}]
  * expandKey:array,展开key，默认[],
- * onChange:点击事件
+ * onClick:点击事件,参数为对应的obj
  * onRightClick:右键点击事件
  */
 class Tree extends React.Component{
     constructor(props){
-        super(props)
-        
-        
+        super(props) 
     }
-    static TreeNode=()=>{
-        return (<div>静态方法</div>)
+    // static TreeNode=(item)=>{
+    //     return ()
+    // }
+    //静态方法调用：this.constructor.TreeNode()
+     //点击事件
+    mapLi=(obj)=>{
+        return (
+            obj.map((item,index)=>{
+                return (
+                    <TreeNode data={item} key={index} onClickFun={this.props.onClick}>
+                         {item.children && this.mapLi(item.children)}
+                    </TreeNode>
+                )
+            })
+        )
     }
     render(){
         return (
-            <div className='Tree'>
-                
-            </div>
+            <ul className='Tree'>
+               {this.mapLi(this.props.data)}
+            </ul>
         )
     }
 }
-// class TreeNode extends React.Component{
-//     render(){
-//         return (
-//             <div>TreeNode</div>
-//         )
-//     }
-// }
-// Tree.TreeNode=TreeNode
+class TreeNode extends React.Component{
+    constructor(props){
+        super(props);
+        this.state={
+            isFold:true
+        }
+    }
+    onClick=(data)=>{
+        this.setState({
+            isFold:!this.state.isFold
+        })
+        this.props.onClickFun(data);
+    }
+    render(){
+        const {data}=this.props;
+        return (
+            <li key={data.key}>
+                <div onClick={this.onClick.bind(this,data)} className='Tree_click_cont'>
+                    <span className={`tree_icon ${this.state.isFold?"":"tree_icon_active"}`}>
+                        {data.children&&(<Icon icon={IconT['faCaretRight']}/>)}
+                    </span>
+                    {data.title}
+                </div>
+                {
+                    data.children && (
+                        <ul className='Tree_Ul' hidden={this.state.isFold?true:false}>
+                            {this.props.children}
+                        </ul>
+                    )
+                }
+            </li>
+        )
+    }
+}
+Tree.TreeNode=TreeNode
 Tree.propTypes={
     data:PropTypes.array,
     expandKey:PropTypes.array,
-    onChange:PropTypes.func,
+    onClick:PropTypes.func,
     onRightClick:PropTypes.func
 }
 Tree.defaultProps={
-    data:[{title:'tree0',key:'0-0'},{title:'tree1',key:'0-1'},{title:'tree2',key:'0-2'}],
+    data:[{title:'tree0',key:'0-0',children:[{title:'tree0-0',key:'0-0-0',children:[{title:'tree0-0-0',key:'0-0-0-0'},{title:'tree0-0-1',key:'0-0-0-1'}]},{title:'tree0-1',key:'0-0-1'}]},{title:'tree1',key:'0-1'},{title:'tree2',key:'0-2'}],
     expandKey:[],
-    onChange:()=>{},
+    onClick:()=>{console.log('点击')},
     onRightClick:()=>{}
 }
 /**
