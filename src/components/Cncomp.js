@@ -125,7 +125,7 @@ class DrawerBox extends React.Component{
         
     }
     onClose=()=>{
-       this.props.onClose();
+        this.props.onClose && this.props.onClose();
     }
     render(){
         const {position,title,width,visible}=this.props;
@@ -359,7 +359,7 @@ Tab.defaultProps={
     onClose:()=>{},
 }
 /**
- * 树形菜单组件
+ * Tree树形菜单组件
  * data:array,[{title:'11',children:[{title:'ww'...}]}]
  * expandKey:array,展开key，默认[],
  * onClick:点击事件,参数为对应的obj
@@ -367,7 +367,17 @@ Tab.defaultProps={
  */
 class Tree extends React.Component{
     constructor(props){
-        super(props) 
+        super(props);
+        this.state={
+            activeObj:{}
+        }
+    }
+    onClickFun=(data)=>{
+        console.log(666,data)
+        this.props.onClick(data);
+        this.setState({
+            activeObj:data
+        })
     }
     // static TreeNode=(item)=>{
     //     return ()
@@ -378,7 +388,7 @@ class Tree extends React.Component{
         return (
             obj.map((item,index)=>{
                 return (
-                    <TreeNode data={item} key={index} onClickFun={this.props.onClick}>
+                    <TreeNode data={item} key={index} actived={item.key===this.state.activeObj.key?true:false} onClickFun={this.onClickFun.bind(this)} expandKey={this.props.expandKey}>
                          {item.children && this.mapLi(item.children)}
                     </TreeNode>
                 )
@@ -397,7 +407,8 @@ class TreeNode extends React.Component{
     constructor(props){
         super(props);
         this.state={
-            isFold:true
+            isFold:this.props.expandKey.find(item=>item.indexOf(this.props.data.key))?true:false
+            
         }
     }
     onClick=(data)=>{
@@ -410,8 +421,8 @@ class TreeNode extends React.Component{
         const {data}=this.props;
         return (
             <li key={data.key}>
-                <div onClick={this.onClick.bind(this,data)} className='Tree_click_cont'>
-                    <span className={`tree_icon ${this.state.isFold?"":"tree_icon_active"}`}>
+                <div onClick={this.onClick.bind(this,data)} className={`Tree_click_cont ${this.props.actived?"activeTree":""}`}>
+                    <span className={`tree_icon ${this.state.isFold?"":"tree_icon_active"}` }>
                         {data.children&&(<Icon icon={IconT['faCaretRight']}/>)}
                     </span>
                     {data.title}
@@ -427,7 +438,7 @@ class TreeNode extends React.Component{
         )
     }
 }
-Tree.TreeNode=TreeNode
+Tree.TreeNode=TreeNode;
 Tree.propTypes={
     data:PropTypes.array,
     expandKey:PropTypes.array,
@@ -436,8 +447,8 @@ Tree.propTypes={
 }
 Tree.defaultProps={
     data:[{title:'tree0',key:'0-0',children:[{title:'tree0-0',key:'0-0-0',children:[{title:'tree0-0-0',key:'0-0-0-0'},{title:'tree0-0-1',key:'0-0-0-1'}]},{title:'tree0-1',key:'0-0-1'}]},{title:'tree1',key:'0-1'},{title:'tree2',key:'0-2'}],
-    expandKey:[],
-    onClick:()=>{console.log('点击')},
+    expandKey:["0-0"],
+    onClick:(data)=>{console.log('点击:',data)},
     onRightClick:()=>{}
 }
 /**

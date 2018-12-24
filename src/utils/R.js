@@ -64,7 +64,8 @@ export const ArticleJson0=[
     },{
         title:'React',
         children:[
-            {title:'HTML字符串转为html',url:'/mds/react/stringTohtml.md'}
+            {title:'HTML字符串转为html',url:'/mds/react/stringTohtml.md'},
+            {title:'CacheRoute中文说明',url:'/mds/react/CacheRoute_CN.md'}
         ]
     },{
         title:'Others',
@@ -115,3 +116,31 @@ export const ArticleJson2=[
 ]
 
 //代码对应目录
+export const CodeJson=[
+    {
+        title:'HTML5',
+        key:'0-0',
+        children:[
+            { 
+                title:'Canvas',
+                key:'0-0-0',
+                children:[
+                    {title:'自由粒子',key:'0-0-0-0',url:'/codes/自由粒子.html'},
+                   
+                ]
+            },
+        ]
+    },
+    {
+        title:'JavaSctipt',
+        key:'0-1',
+        children:[
+            {title:'sort排序',key:'0-1-0',url:'/codes/sort.html'}
+            
+        ]
+    },{
+        title:'CSS3',
+        key:'0-2'
+    }
+]
+

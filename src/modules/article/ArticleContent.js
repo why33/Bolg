@@ -9,6 +9,7 @@ const Root=styled.div`
     box-sizing:border-box;
     padding:10px;
     overflow-y:auto;
+    overflow-x:hidden;
     li{
         list-style-position:inside;
     }
@@ -24,6 +25,7 @@ const Root=styled.div`
     h1,h2,h3,h4,h5,h6{
         margin:1vh;
     }
+    p[]
     &::-webkit-scrollbar {
         width:6px; 
         background: transparent;

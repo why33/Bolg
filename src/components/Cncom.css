@@ -180,6 +180,7 @@
 .DrawerBox-con-header{
     position: relative;
     width:100%;
+    color:white;
     font-size:1.5vh;
     text-indent:10px;
     line-height:3.5vh;
@@ -906,6 +907,7 @@
     width:100%;
     overflow: hidden;
 }
+
 .Tab_content>ul{
     position: relative;
     width: auto;
@@ -919,6 +921,26 @@
     height:100%;
     box-sizing: border-box;
     padding:0 2vh;
+    overflow:auto;
+    border:1px solid transparent;
+}
+/*滚动条样式*/
+.Tab_content>ul>li::-webkit-scrollbar {
+    width:6px; 
+    height:6px;
+    background: transparent;
+    border:none;
+}
+.Tab_content>ul>li::-webkit-scrollbar-thumb{
+    border-radius: 10px;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+    background: #afd0e7;
+}
+.Tab_content>ul>li::-webkit-scrollbar-corner{
+    background:transparent;
+}
+.Tab_content>ul>li>*{
+    width:100%;
 }
 /* ------------------------------------------------------- */
 /* 树形菜单组件 */
@@ -944,9 +966,11 @@
     content:"";
     top:0;
     left:1.5vh;
-    width:1px;
+    width:1.5vh;
     height: 100%;
+    box-sizing: border-box;
     border-left:1px solid #c4c0c7;
+    border-bottom:1px solid #c4c0c7;
 }
 .Tree_click_cont{
     cursor: pointer;
@@ -954,6 +978,10 @@
 }
 .Tree_click_cont:hover{
     background:#99c4df;
+}
+.activeTree{
+    color:#ffffff;
+    background:#068beb;
 }
 .tree_icon{
     display: inline-block;
@@ -974,6 +1002,7 @@
     -moz-transform: rotate(90deg);
     -o-transform: rotate(90deg);
 }
+
 
 
 

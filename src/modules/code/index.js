@@ -2,7 +2,9 @@ import React from 'react'
 import {RectBack,RectContent} from '@comp/RectBack'
 import CodeList from './CodeList'
 import CodeContent from './CodeContent'
+import connect from '@connect'
 
+@connect('code')
 class Code extends React.Component{
     clickFun=(val)=>{
         this.props.path_change_fun(val);
