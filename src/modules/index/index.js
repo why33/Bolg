@@ -9,6 +9,7 @@ import Main from "./Main"
 import Article from '@module/article'
 import Music from '@module/music'
 import Code from '@module/code'
+import Picture from '@module/picture'
 import {DrawerBox,Button} from '@cncomp'
 import { FontAwesomeIcon as Icon} from '@fortawesome/react-fontawesome'
 import {IconT} from '@type'
@@ -74,6 +75,9 @@ class Content1 extends React.Component{
                 break;
             case "/code":
                 Comp=Code;
+                break;
+            case "/photo":
+                Comp=Picture;
                 break;
             default:
                 Comp=Main;

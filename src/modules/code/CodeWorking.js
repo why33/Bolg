@@ -16,7 +16,7 @@ export default class CodeWorking extends React.Component{
     render(){
         return (
             <Root >
-                <iframe src={this.props.codeSelectObj.url} frameBorder="0"></iframe>
+                <iframe src={this.props.codeSelectObj.url} frameBorder="0" title='代码运行'></iframe>
             </Root>
         )
     }

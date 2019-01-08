@@ -373,7 +373,6 @@ class Tree extends React.Component{
         }
     }
     onClickFun=(data)=>{
-        console.log(666,data)
         this.props.onClick(data);
         this.setState({
             activeObj:data
